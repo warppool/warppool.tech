@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<!-- Terms of service (/terms). Static legal content. -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terms of Service — Warppool</title>
+<meta name="description" content="Terms of service for the Warppool distributed GPU compute network. Usage terms for job submitters, site owners, and browser workers." />
+<link rel="stylesheet" href="/assets/warppool.css" />
+<link rel="icon" type="image/png" href="/assets/warppool-icon.png" />
+<link rel="apple-touch-icon" href="/assets/warppool-icon.png" />
+<style>
+/* Long-form legal typography.
+   The previous version of this page carried these rules as inline styles on
+   every heading and paragraph. At 39 sections plus four appendices that is
+   unmaintainable, so the same values live here, scoped to .legal, and the
+   markup below stays semantic. Tokens only — no literal colors. */
+.legal {
+  font-size: 16px;
+  color: var(--fg-2);
+  line-height: 1.65;
+  /* colors_and_type.css caps a bare <p> at --container-narrow but leaves
+     lists and headings at the container width, so a document this list-heavy
+     reads ragged — paragraphs wrapping half a column short of the bullets
+     beside them. Pin the whole column to the same prose measure.
+     It sits inside a plain .container (not .container-narrow) and takes no
+     auto margins, so its left edge lines up with the hero above it. */
+  max-width: var(--container-narrow);
+}
+.legal h2 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--fg-1);
+  margin: 40px 0 14px;
+  /* Clear the sticky site header when an anchor link jumps here. */
+  scroll-margin-top: 90px;
+}
+.legal h3 {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--fg-1);
+  margin: 26px 0 10px;
+}
+.legal p { margin: 0 0 14px; }
+.legal ul, .legal ol { margin: 0 0 14px; padding-left: 24px; }
+.legal li { margin-bottom: 6px; }
+.legal b, .legal strong { color: var(--fg-1); }
+.legal a { color: var(--color-primary); }
+
+/* Table of contents. */
+.legal-toc {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 20px 24px 22px;
+  margin: 0 0 8px;
+}
+.legal-toc h2 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  margin: 0 0 14px;
+}
+.legal-toc ol { columns: 2; column-gap: 36px; font-size: 14px; line-height: 1.5; margin: 0; }
+.legal-toc li { margin-bottom: 5px; break-inside: avoid; }
+.legal-toc__appendices {
+  list-style: none;
+  columns: 2;
+  column-gap: 36px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 14px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--border-default);
+}
+
+/* Conspicuous blocks (disclaimers, liability cap).
+   Written in sentence case in the markup and uppercased in CSS: a screen
+   reader gets natural text, a sighted reader gets the conventional
+   all-caps treatment these clauses are expected to carry. */
+.legal-conspicuous { text-transform: uppercase; font-size: 15px; letter-spacing: 0.01em; }
+
+/* Appendices read as separate documents appended to the Terms. */
+.legal-appendix { border-top: 1px solid var(--border-default); margin-top: 56px; padding-top: 32px; }
+.legal-appendix > h2:first-child { margin-top: 0; }
+
+.legal-end {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  border-top: 1px solid var(--border-default);
+  margin-top: 48px;
+  padding-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .legal-toc ol, .legal-toc__appendices { columns: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== Header =============== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="brand__name">Warppool</span>
+      <span class="brand__divider"></span>
+      <span class="brand__role"><b>Ad-free web</b>monetize with compute, not surveillance</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Overview</a>
+      <a href="/publishers">For Publishers</a>
+      <a href="/run-jobs">Run Jobs</a>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/docs">Docs</a>
+      <span class="header-live" title="Unique workers that contributed in the last 24 hours">
+        <span class="header-live__dot"></span>
+        <span data-live="workers">&mdash;</span>&nbsp;workers
+      </span>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/sign-in" class="site-nav__signin">Sign in</a>
+      <a href="/sign-up" class="site-nav__signup">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== Hero =============== -->
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow-divider">Legal</div>
+    <h1>Terms of Service</h1>
+    <p class="lead" style="max-width: 42rem;">Last updated: August 19, 2026. By using the Warppool network you agree to the following terms.</p>
+  </div>
+</section>
+
+<!-- ============== Content =============== -->
+<section class="section">
+  <div class="container">
+   <div class="legal">
+
+    <p>These Terms of Service (&ldquo;<b>Terms</b>&rdquo;) govern your access to and use of the Warppool platform, websites, software, APIs, browser-based worker software, distributed computing network, and related services (collectively, the &ldquo;<b>Service</b>&rdquo;) provided by <b>Warppool L.L.C.</b> (&ldquo;<b>Warppool</b>,&rdquo; &ldquo;<b>we</b>,&rdquo; &ldquo;<b>us</b>,&rdquo; or &ldquo;<b>our</b>&rdquo;).</p>
+
+    <p>By accessing or using the Service, creating an account, submitting a job, embedding Warppool software on a website or application, or otherwise participating in the Warppool network, you agree to these Terms. If you do not agree, do not use the Service.</p>
+
+    <p>If you are using the Service on behalf of a company, university, organization, or other legal entity, you represent that you have authority to bind that entity, and &ldquo;you&rdquo; includes that entity.</p>
+
+    <!-- ---------- 1 ---------- -->
+    <h2 id="s1">1. The Warppool Service</h2>
+    <p>Warppool provides a distributed computing platform through which computational workloads may be divided into tasks and executed by participating computing devices, including browser-based devices whose users have affirmatively elected to contribute computing resources.</p>
+    <p>Depending on the applicable Service configuration, Warppool may:</p>
+    <ul>
+      <li>accept computational jobs, kernels, shaders, programs, manifests, datasets, and related instructions;</li>
+      <li>distribute computational tasks to participating workers;</li>
+      <li>verify or cross-check results using redundancy, calibration, validation, or other mechanisms;</li>
+      <li>return computational results to job submitters;</li>
+      <li>provide software and tools for website and application operators to allow visitors to voluntarily contribute computing resources; and</li>
+      <li>provide accounting, billing, credit, or other functionality associated with network participation.</li>
+    </ul>
+    <p>The Service is evolving and may be modified, suspended, discontinued, or replaced at any time.</p>
+    <p><b>Warppool does not guarantee that any particular workload will execute, that any worker will be available, that results will be correct or complete, or that the Service will remain available for any particular period of time.</b></p>
+
+    <!-- ---------- 2 ---------- -->
+    <h2 id="s2">2. Eligibility and authority</h2>
+    <p>You must be legally capable of entering into these Terms.</p>
+    <p>You may not use the Service if:</p>
+    <ol>
+      <li>you are prohibited from using the Service under applicable law;</li>
+      <li>you are using the Service on behalf of an entity without authority to bind that entity;</li>
+      <li>your use would violate applicable sanctions, export-control laws, or other applicable restrictions; or</li>
+      <li>Warppool has previously suspended or terminated your access, unless Warppool expressly authorizes you to return.</li>
+    </ol>
+    <p>You must be at least 13 years old to create a Warppool account or use the Service. If you are under the age permitted to enter a legally binding contract in your jurisdiction, you may use the Service only with the involvement and authorization of a parent or legal guardian where legally required.</p>
+    <p>Warppool does not knowingly direct the Service toward children under 13 and does not knowingly collect personal information from them. If we learn that a child under 13 has provided personal data, we will delete it promptly.</p>
+
+    <!-- ---------- 3 ---------- -->
+    <h2 id="s3">3. Accounts</h2>
+    <p>Certain portions of the Service require an account.</p>
+    <p>You are responsible for:</p>
+    <ul>
+      <li>providing accurate information;</li>
+      <li>maintaining the security of your account and authentication credentials;</li>
+      <li>protecting API keys, access tokens, SSH private keys, and other credentials;</li>
+      <li>all activity occurring through your account, except to the extent caused by Warppool&rsquo;s own failure to implement commercially reasonable security measures; and</li>
+      <li>promptly notifying Warppool of suspected unauthorized access.</li>
+    </ul>
+    <p>You may not share, sell, transfer, or sublicense your account or API credentials except as expressly permitted by Warppool.</p>
+    <p>Warppool may impose reasonable limits on accounts, API keys, jobs, compute usage, throughput, storage, or other resources.</p>
+
+    <!-- ---------- 4 ---------- -->
+    <h2 id="s4">4. Job submitters</h2>
+    <p>If you submit workloads to Warppool (&ldquo;<b>Job Submitter</b>&rdquo;), you are solely responsible for your workloads and all consequences of executing them.</p>
+    <p>You represent and warrant that:</p>
+    <ol>
+      <li>you own, control, or have sufficient rights to submit all kernels, shaders, code, datasets, manifests, models, and other materials you provide;</li>
+      <li>your workload does not violate applicable law;</li>
+      <li>your workload does not infringe or misappropriate any third-party intellectual-property, privacy, contractual, or other rights;</li>
+      <li>you have all permissions necessary to process any data included in your workload;</li>
+      <li>your workload does not contain malicious code or instructions intended to compromise the Service or participating devices; and</li>
+      <li>you will not use Warppool as a substitute for security-sensitive, safety-critical, or legally regulated computing infrastructure unless expressly authorized by a written agreement with Warppool.</li>
+    </ol>
+
+    <h3>4.1 No sensitive or regulated data</h3>
+    <p>Unless Warppool expressly agrees otherwise in a separate written agreement, you must not submit:</p>
+    <ul>
+      <li>payment-card information;</li>
+      <li>passwords, authentication credentials, private keys, or secrets;</li>
+      <li>protected health information;</li>
+      <li>highly sensitive personal information;</li>
+      <li>classified or government-restricted information;</li>
+      <li>information subject to heightened regulatory handling requirements;</li>
+      <li>confidential information belonging to a third party where disclosure to distributed workers is unauthorized; or</li>
+      <li>any information for which disclosure to independent computing devices would violate law or contract.</li>
+    </ul>
+    <p><b>You acknowledge that workloads may be transmitted to and executed by third-party participating computing devices.</b></p>
+    <p>You are solely responsible for determining whether your workload is appropriate for distributed execution.</p>
+
+    <!-- ---------- 5 ---------- -->
+    <h2 id="s5">5. Visibility of workloads</h2>
+    <p>Unless a separate written agreement provides otherwise, kernels, shaders, executable instructions, task manifests, and other workload components submitted to the public Warppool network may be made available to participating workers for purposes of executing the workload.</p>
+    <p><b>Do not submit trade secrets, confidential algorithms, proprietary source code, credentials, or other information that you are unwilling to disclose to participating workers.</b></p>
+    <p>Warppool is not responsible for confidentiality of information that you submit to a public or distributed portion of the Service where you have not entered into a separate confidentiality agreement with Warppool.</p>
+
+    <!-- ---------- 6 ---------- -->
+    <h2 id="s6">6. Worker participation</h2>
+    <p>Certain Warppool functionality permits individuals to voluntarily contribute computing resources from their devices.</p>
+    <p>A person contributing resources through the Service (&ldquo;<b>Worker</b>&rdquo;) acknowledges and agrees that:</p>
+    <ul>
+      <li>participation is voluntary;</li>
+      <li>computation may consume CPU, GPU, memory, network bandwidth, battery power, and electricity;</li>
+      <li>device performance, battery life, temperature, power consumption, and other characteristics may be affected;</li>
+      <li>Warppool does not control the physical condition, configuration, operating system, hardware, firmware, browser, network connection, or power source of a Worker device;</li>
+      <li>Warppool does not guarantee any particular level of compensation, compute utilization, device performance, or earnings; and</li>
+      <li>the Worker is responsible for determining whether participation is appropriate for the device and circumstances in which participation occurs.</li>
+    </ul>
+    <p>Warppool may limit, throttle, pause, reject, or terminate workloads on a Worker device at any time.</p>
+
+    <!-- ---------- 7 ---------- -->
+    <h2 id="s7">7. Publisher responsibilities</h2>
+    <p>If you embed Warppool software, scripts, or widgets on a website, application, or digital service (&ldquo;<b>Publisher Property</b>&rdquo;), you are a &ldquo;<b>Publisher</b>.&rdquo;</p>
+    <p>Publishers are solely responsible for:</p>
+    <ul>
+      <li>the Publisher Property;</li>
+      <li>complying with applicable laws and regulations;</li>
+      <li>obtaining any consent required before computation begins;</li>
+      <li>presenting Warppool&rsquo;s consent and disclosure mechanisms accurately;</li>
+      <li>maintaining a clear and functional means of declining or stopping participation where required;</li>
+      <li>informing visitors appropriately about participation;</li>
+      <li>ensuring that the Publisher Property does not misleadingly represent Warppool&rsquo;s functionality; and</li>
+      <li>determining whether the use of Warppool is compatible with the Publisher Property and its applicable privacy, consumer-protection, accessibility, and other obligations.</li>
+    </ul>
+    <p>Publishers may not:</p>
+    <ul>
+      <li>conceal, modify, or disable the consent prompt or any required consent mechanism;</li>
+      <li>falsely state that visitors are required to contribute computing resources;</li>
+      <li>modify Warppool software in a manner that defeats safety, consent, throttling, or security mechanisms;</li>
+      <li>represent that Warppool endorses the Publisher Property without authorization; or</li>
+      <li>use Warppool to circumvent applicable laws or contractual obligations.</li>
+    </ul>
+    <p>Compute credits accrue to your account based on verified completed work performed by visitors to the Publisher Property, measured as described in Section 12.</p>
+    <p><b>The Publisher, and not Warppool, is responsible for the Publisher Property and for the Publisher&rsquo;s relationship with its visitors. You agree to hold Warppool harmless from all liability and damages that may result from embedding the Warppool tag on your website, application, or service.</b></p>
+
+    <!-- ---------- 8 ---------- -->
+    <h2 id="s8">8. Prohibited uses</h2>
+    <p>You may not use the Service to:</p>
+    <ol>
+      <li>violate any applicable law, regulation, court order, or governmental requirement;</li>
+      <li>infringe, misappropriate, or violate another person&rsquo;s intellectual-property, privacy, publicity, contractual, or other rights;</li>
+      <li>transmit malware, ransomware, spyware, viruses, worms, destructive code, or other malicious material;</li>
+      <li>attempt to escape or circumvent the browser, WebGPU, operating-system, container, or other security sandbox;</li>
+      <li>access a Worker device, filesystem, host memory, credentials, network resources, camera, microphone, or other resources outside the permissions expressly provided by the Service, including memory outside bound buffers;</li>
+      <li>perform cryptocurrency mining, proof-of-work, token generation, or substantially similar workloads;</li>
+      <li>process sensitive personal, health, financial, classified, or regulated information without Warppool&rsquo;s prior written authorization;</li>
+      <li>interfere with or disrupt the Service or another user&rsquo;s use of the Service;</li>
+      <li>intentionally submit workloads designed to damage devices or infrastructure;</li>
+      <li>intentionally return fraudulent or manipulated results;</li>
+      <li>conduct denial-of-service attacks, credential attacks, vulnerability exploitation, port scanning, or unauthorized security testing;</li>
+      <li>impersonate Warppool or another user, including impersonating the Warppool consent prompt;</li>
+      <li>circumvent usage limits, billing mechanisms, verification systems, or authentication controls;</li>
+      <li>reverse engineer or attempt to extract source code from portions of the Service except to the extent expressly permitted by applicable law;</li>
+      <li>use automated means to create fraudulent accounts or manipulate compute credits, rewards, measurements, verification, or billing;</li>
+      <li>use the Service to develop or deploy weapons or other unlawful harmful systems;</li>
+      <li>use the Service to facilitate fraud, abuse, harassment, exploitation, or other unlawful conduct; or</li>
+      <li>encourage or assist another person to do any of the foregoing.</li>
+    </ol>
+    <p>Warppool may determine, in its reasonable discretion, whether conduct violates these Terms or threatens the security, integrity, or operation of the Service. Violation may result in account suspension and permanent exclusion from the network.</p>
+
+    <!-- ---------- 9 ---------- -->
+    <h2 id="s9">9. Security and sandbox limitations</h2>
+    <p>Warppool may employ browser, GPU, API, infrastructure, verification, rate-limiting, and other security controls.</p>
+    <p>However, <b>no software, browser, GPU, cloud infrastructure, network, or security mechanism is completely secure.</b></p>
+    <p>You acknowledge that:</p>
+    <ul>
+      <li>security vulnerabilities may exist;</li>
+      <li>browsers and hardware may contain vulnerabilities outside Warppool&rsquo;s control;</li>
+      <li>third-party software may behave unexpectedly;</li>
+      <li>network communications may be intercepted or disrupted despite reasonable safeguards; and</li>
+      <li>Warppool cannot guarantee that the Service will be free from vulnerabilities, malicious activity, or unauthorized access.</li>
+    </ul>
+    <p>You agree not to rely on Warppool as your sole security control for sensitive information or critical systems.</p>
+
+    <!-- ---------- 10 ---------- -->
+    <h2 id="s10">10. Results and verification</h2>
+    <p>Warppool may use redundancy, replication, calibration, canary tasks, statistical validation, deterministic checks, or other mechanisms to identify incorrect or malicious results.</p>
+    <p>These mechanisms <b>reduce risk but do not guarantee correctness.</b></p>
+    <p>You acknowledge that computational results may be incomplete, inaccurate, stale, corrupted, duplicated, delayed, unavailable, or incorrectly classified as valid or invalid.</p>
+    <p><b>You are solely responsible for independently validating results before relying upon them for consequential decisions.</b></p>
+    <p>Warppool is not responsible for losses arising from reliance on computational results, including scientific, financial, business, medical, engineering, legal, safety, or operational decisions.</p>
+
+    <!-- ---------- 11 ---------- -->
+    <h2 id="s11">11. Experimental and high-risk uses</h2>
+    <p>The Service is not designed or warranted for use in:</p>
+    <ul>
+      <li>medical diagnosis or treatment;</li>
+      <li>emergency-response systems;</li>
+      <li>aircraft, spacecraft, or other transportation control;</li>
+      <li>weapons systems;</li>
+      <li>nuclear or other hazardous infrastructure;</li>
+      <li>life-support systems;</li>
+      <li>financial-market execution where failure could cause material loss;</li>
+      <li>safety-critical industrial control;</li>
+      <li>legal or regulatory determinations; or</li>
+      <li>other applications where an error or interruption could reasonably result in death, bodily injury, or significant property or financial damage.</li>
+    </ul>
+    <p>You must not use the Service for such purposes without Warppool&rsquo;s express written authorization.</p>
+
+    <!-- ---------- 12 ---------- -->
+    <h2 id="s12">12. Billing and fees</h2>
+    <p>Paid Service usage is billed according to the pricing displayed by Warppool at the time of use or according to an applicable order form. Charges are measured in milliseconds by Warppool&rsquo;s measurement systems.</p>
+    <p>Unless otherwise stated:</p>
+    <ul>
+      <li>charges are based on Warppool&rsquo;s measurement systems, which record the compute time attributable to your job;</li>
+      <li>different job types may use different measurement bases &mdash; batch workloads are measured by the elapsed duration of the job, while interactive workloads such as chat are measured by generation time actually spent on the network;</li>
+      <li>failed chunks, timeouts, canary chunks, redundant re-runs, and other verification-related work may be excluded from billing at Warppool&rsquo;s discretion;</li>
+      <li>a job you cancel is still billed for the compute performed before cancellation;</li>
+      <li>prices may change prospectively;</li>
+      <li>applicable taxes may be added;</li>
+      <li>payment obligations are non-cancelable except where required by law or expressly stated otherwise; and</li>
+      <li>payments are processed through third-party payment providers, currently Stripe. Warppool does not store card numbers.</li>
+    </ul>
+    <p>You authorize Warppool and its payment processor to charge the applicable payment method for amounts due.</p>
+
+    <!-- ---------- 13 ---------- -->
+    <h2 id="s13">13. Research tier</h2>
+    <p>Free-tier access for researchers requires verifiable institutional affiliation &mdash; a university, public laboratory, K&ndash;12 school, or registered research organization.</p>
+    <p>Warppool reserves the right to verify affiliation and to revoke free-tier access if usage is inconsistent with research purposes, including use for commercial production workloads, resale of capacity, or activity prohibited by Section 8.</p>
+
+    <!-- ---------- 14 ---------- -->
+    <h2 id="s14">14. Payment disputes and refunds</h2>
+    <p>You must notify Warppool of a good-faith billing dispute within <b>30 days</b> after the applicable charge.</p>
+    <p>Warppool may investigate disputed charges and may, in its discretion, issue credits or refunds.</p>
+    <p>Nothing in this section limits rights that cannot legally be waived.</p>
+
+    <!-- ---------- 15 ---------- -->
+    <h2 id="s15">15. Third-party services</h2>
+    <p>The Service integrates with and depends upon third-party services, including cloud providers, payment processors, browsers, hosting providers, authentication providers, networking providers, and other infrastructure.</p>
+    <p>Third-party services are governed by their own terms and policies.</p>
+    <p>Warppool is not responsible for third-party outages, third-party security incidents, third-party software defects, changes to third-party APIs, third-party pricing, third-party data handling, or the acts or omissions of third-party providers, except to the extent caused by Warppool&rsquo;s own legally actionable conduct.</p>
+
+    <!-- ---------- 16 ---------- -->
+    <h2 id="s16">16. Intellectual property</h2>
+    <p>The Service, including Warppool software, source code, object code, APIs, interfaces, documentation, trademarks, logos, designs, and other Warppool materials, is owned by or licensed to Warppool and is protected by applicable intellectual-property laws.</p>
+    <p>Subject to these Terms, Warppool grants you a limited, non-exclusive, non-transferable, revocable license to use the Service for its intended purpose.</p>
+    <p>Except as expressly permitted by Warppool or applicable law, you may not copy, distribute, sublicense, sell, or resell the Service; modify proprietary portions of the Service or create derivative works from them; reverse engineer the Service; remove proprietary notices; or use Warppool trademarks without authorization.</p>
+    <p>Portions of the Service are made available by Warppool under open-source licenses. Nothing in this section limits rights granted to you under those licenses, which govern the components they cover.</p>
+
+    <!-- ---------- 17 ---------- -->
+    <h2 id="s17">17. Your content</h2>
+    <p>You retain ownership of content and materials you submit to Warppool (&ldquo;<b>User Content</b>&rdquo;).</p>
+    <p>You grant Warppool a worldwide, non-exclusive, royalty-free license to host, reproduce, transmit, process, execute, modify as technically necessary, and otherwise use User Content solely as reasonably necessary to provide, secure, maintain, improve, and verify the Service.</p>
+    <p>This license includes the right to:</p>
+    <ul>
+      <li>distribute workloads to participating Workers;</li>
+      <li>reproduce workloads as necessary for redundancy and verification;</li>
+      <li>temporarily store workloads and results;</li>
+      <li>generate technical metadata associated with workload execution; and</li>
+      <li>use aggregated or de-identified information derived from Service usage to operate and improve the Service.</li>
+    </ul>
+    <p>You represent that you have all rights necessary to grant this license.</p>
+    <p>Warppool does not acquire ownership of your User Content merely because you submit it to the Service.</p>
+
+    <!-- ---------- 18 ---------- -->
+    <h2 id="s18">18. Feedback</h2>
+    <p>If you provide suggestions, ideas, bug reports, feature requests, or other feedback, you grant Warppool a perpetual, irrevocable, worldwide, royalty-free, sublicensable right to use and incorporate that feedback without compensation or attribution.</p>
+
+    <!-- ---------- 19 ---------- -->
+    <h2 id="s19">19. Indemnification</h2>
+    <p>To the maximum extent permitted by law, you agree to defend, indemnify, and hold harmless Warppool and its officers, directors, employees, contractors, agents, affiliates, licensors, and service providers from and against any claims, demands, actions, proceedings, damages, judgments, losses, liabilities, costs, and expenses, including reasonable attorneys&rsquo; fees, arising out of or relating to:</p>
+    <ol>
+      <li>your use of the Service;</li>
+      <li>your User Content;</li>
+      <li>your workloads or computational jobs;</li>
+      <li>your Publisher Property;</li>
+      <li>your violation of these Terms;</li>
+      <li>your violation of applicable law;</li>
+      <li>your infringement or misappropriation of another person&rsquo;s rights;</li>
+      <li>your violation of a third party&rsquo;s privacy or contractual rights;</li>
+      <li>your failure to obtain required consent or authorization;</li>
+      <li>your use of computational results;</li>
+      <li>activity occurring through your account; or</li>
+      <li>your relationship with Workers, visitors, customers, users, employees, contractors, or other third parties.</li>
+    </ol>
+    <p>Warppool may assume exclusive control of the defense of a matter subject to indemnification, and you agree to reasonably cooperate with that defense.</p>
+    <p>You may not settle an indemnified claim in a manner that imposes liability, admission of wrongdoing, or obligations on Warppool without Warppool&rsquo;s prior written consent.</p>
+
+    <!-- ---------- 20 ---------- -->
+    <h2 id="s20">20. Disclaimers</h2>
+    <div class="legal-conspicuous">
+      <p><b>To the maximum extent permitted by law, the Service is provided &ldquo;as is,&rdquo; &ldquo;as available,&rdquo; and &ldquo;with all faults.&rdquo;</b></p>
+      <p>Warppool disclaims all warranties, whether express, implied, statutory, or otherwise, including warranties of merchantability, fitness for a particular purpose, title, non-infringement, accuracy, reliability, availability, security, quiet enjoyment, and results or performance.</p>
+      <p>Warppool does not warrant that:</p>
+      <ol>
+        <li>the Service will be uninterrupted;</li>
+        <li>the Service will be error-free;</li>
+        <li>the Service will be secure;</li>
+        <li>workloads will complete;</li>
+        <li>Workers will be available;</li>
+        <li>computational results will be accurate;</li>
+        <li>results will be delivered within a particular time;</li>
+        <li>the Service will meet your requirements;</li>
+        <li>defects will be corrected; or</li>
+        <li>the Service will remain available or operate in its current form.</li>
+      </ol>
+      <p>You use the Service at your own risk.</p>
+      <p>Nothing in these Terms excludes a warranty or right that cannot lawfully be excluded.</p>
+    </div>
+
+    <!-- ---------- 21 ---------- -->
+    <h2 id="s21">21. Limitation of liability</h2>
+    <div class="legal-conspicuous">
+      <p><b>To the maximum extent permitted by law, Warppool and its officers, directors, employees, contractors, affiliates, licensors, and service providers will not be liable for any indirect, incidental, special, consequential, exemplary, punitive, or enhanced damages, or for any loss of profits, revenue, business, goodwill, reputation, data, expected savings, business opportunity, or use, arising out of or relating to the Service or these Terms, even if Warppool has been advised of the possibility of such damages.</b></p>
+      <p><b>To the maximum extent permitted by law, Warppool&rsquo;s total aggregate liability arising out of or relating to the Service or these Terms will not exceed the greater of (a) the amount you paid to Warppool for the Service during the 12 months immediately preceding the event giving rise to the claim, or (b) US $100.</b></p>
+      <p>For free users who have paid no fees, the liability cap will therefore be US $100, except to the extent a greater amount is required by applicable law.</p>
+      <p>These limitations apply regardless of the legal theory asserted, including contract, warranty, tort, negligence, strict liability, statute, or any other theory.</p>
+      <p>The limitations in this section do not apply to liability that cannot legally be limited or excluded.</p>
+    </div>
+
+    <!-- ---------- 22 ---------- -->
+    <h2 id="s22">22. Allocation of risk</h2>
+    <p>You acknowledge that the pricing and availability of the Service reflect the allocation of risk contained in these Terms.</p>
+    <p>You agree that the limitations, exclusions, disclaimers, and indemnification provisions are material terms of the agreement between you and Warppool.</p>
+    <p>If any remedy or limitation is determined to be unenforceable, the provision will be enforced to the maximum extent permitted by law and the remaining provisions will remain in effect.</p>
+
+    <!-- ---------- 23 ---------- -->
+    <h2 id="s23">23. Suspension and termination</h2>
+    <p>Warppool may suspend, restrict, or terminate your access to the Service at any time if Warppool reasonably believes that:</p>
+    <ul>
+      <li>you violated these Terms;</li>
+      <li>your activity presents a security or operational risk;</li>
+      <li>your activity may expose Warppool or another person to legal liability;</li>
+      <li>your account is fraudulent or compromised;</li>
+      <li>you failed to pay amounts due;</li>
+      <li>your activity threatens network integrity;</li>
+      <li>you are abusing verification, compute, or billing systems; or</li>
+      <li>suspension is reasonably necessary to protect the Service, Workers, Publishers, Job Submitters, or Warppool.</li>
+    </ul>
+    <p>Warppool may also discontinue any portion of the Service at any time.</p>
+    <p>Upon termination, your right to use the Service ends immediately.</p>
+    <p>Sections concerning intellectual property, User Content, indemnification, disclaimers, limitations of liability, dispute resolution, payment obligations, and any other provisions that by their nature should survive termination will survive.</p>
+
+    <!-- ---------- 24 ---------- -->
+    <h2 id="s24">24. Data deletion and retention</h2>
+    <p>Warppool may retain account information, job information, logs, billing records, security records, and other information for as long as reasonably necessary to:</p>
+    <ul>
+      <li>provide the Service;</li>
+      <li>comply with legal obligations;</li>
+      <li>resolve disputes;</li>
+      <li>prevent fraud and abuse;</li>
+      <li>maintain security;</li>
+      <li>enforce these Terms; or</li>
+      <li>maintain legitimate business records.</li>
+    </ul>
+    <p>Deletion requests are subject to applicable legal, security, billing, and operational requirements.</p>
+    <p>Warppool&rsquo;s handling of personal information is also governed by the <a href="/privacy">Warppool Privacy Policy</a>.</p>
+
+    <!-- ---------- 25 ---------- -->
+    <h2 id="s25">25. Privacy</h2>
+    <p>Your use of the Service is subject to the <a href="/privacy"><b>Warppool Privacy Policy</b></a>, as amended from time to time.</p>
+    <p>The Privacy Policy describes information Warppool collects and how that information is used, disclosed, retained, and protected.</p>
+    <p>If there is a conflict between these Terms and the Privacy Policy concerning personal-data processing, the Privacy Policy will control solely with respect to such processing.</p>
+
+    <!-- ---------- 26 ---------- -->
+    <h2 id="s26">26. Compliance with laws</h2>
+    <p>You are responsible for determining whether your use of the Service complies with laws applicable to you, your organization, your jurisdiction, your users, and your workloads.</p>
+    <p>You may not use the Service in violation of export-control laws, economic sanctions, privacy laws, intellectual-property laws, cybersecurity laws, consumer-protection laws, telecommunications laws, or other applicable legal requirements.</p>
+    <p>Warppool may restrict access based on geography, legal requirements, sanctions, export controls, or other compliance considerations.</p>
+
+    <!-- ---------- 27 ---------- -->
+    <h2 id="s27">27. DMCA and intellectual-property complaints</h2>
+    <p>If you believe that material available through the Service infringes your copyright or other intellectual-property rights, you may contact Warppool at <a href="mailto:legal@warppool.tech"><b>legal@warppool.tech</b></a>.</p>
+    <p>Please include the material you believe is infringing and where it is located, a description of the work you claim has been infringed, your contact information, a statement that you have a good-faith belief the use is not authorized, and a statement made under penalty of perjury that your notice is accurate and that you are authorized to act on behalf of the rights holder.</p>
+    <p>Warppool may remove, disable, or restrict access to allegedly infringing material and may terminate repeat infringers where appropriate.</p>
+
+    <!-- ---------- 28 ---------- -->
+    <h2 id="s28">28. Trademarks and branding</h2>
+    <p>Warppool names, logos, product names, designs, and related branding are trademarks or trade dress of Warppool or its licensors.</p>
+    <p>Nothing in these Terms grants you a right to use Warppool&rsquo;s trademarks except as expressly authorized.</p>
+
+    <!-- ---------- 29 ---------- -->
+    <h2 id="s29">29. Service changes</h2>
+    <p>Warppool may modify features, APIs, pricing, compute limits, verification mechanisms, worker software, supported browsers, infrastructure, eligibility requirements, and other portions of the Service at any time.</p>
+    <p>Warppool does not guarantee backward compatibility.</p>
+
+    <!-- ---------- 30 ---------- -->
+    <h2 id="s30">30. Force majeure</h2>
+    <p>Warppool will not be liable for delay, interruption, or failure to perform caused by circumstances beyond its reasonable control, including natural disasters, fires, floods, severe weather, war, terrorism, civil unrest, government action, sanctions, labor disputes, telecommunications failures, Internet failures, cloud-provider outages, power failures, cyberattacks, widespread software vulnerabilities, browser or hardware changes, supply-chain failures, or failures of third-party infrastructure.</p>
+
+    <!-- ---------- 31 ---------- -->
+    <h2 id="s31">31. Dispute resolution</h2>
+    <p>Before filing a formal legal proceeding, you and Warppool agree to attempt in good faith to resolve any dispute by contacting the other party.</p>
+    <p>You may send legal notices to <a href="mailto:legal@warppool.tech"><b>legal@warppool.tech</b></a>. Warppool may send notices to the email address associated with your account.</p>
+
+    <h3>31.1 Governing law</h3>
+    <p>These Terms are governed by the laws of the State of North Carolina, without regard to conflict-of-law principles, unless applicable law requires otherwise.</p>
+
+    <h3>31.2 Venue</h3>
+    <p>To the extent permitted by law, disputes that are not resolved informally will be brought exclusively in the state or federal courts located in Mecklenburg County, North Carolina, and each party consents to personal jurisdiction and venue in those courts.</p>
+
+    <!-- ---------- 32 ---------- -->
+    <h2 id="s32">32. No waiver</h2>
+    <p>Warppool&rsquo;s failure to enforce any provision of these Terms does not constitute a waiver of its right to enforce that provision later.</p>
+
+    <!-- ---------- 33 ---------- -->
+    <h2 id="s33">33. Severability</h2>
+    <p>If any provision of these Terms is determined to be unlawful, invalid, or unenforceable, that provision will be modified to the minimum extent necessary to make it enforceable, if permitted by law.</p>
+    <p>If modification is not possible, the provision will be severed and the remaining provisions will remain in full force and effect.</p>
+
+    <!-- ---------- 34 ---------- -->
+    <h2 id="s34">34. Assignment</h2>
+    <p>You may not assign or transfer these Terms or your account without Warppool&rsquo;s prior written consent.</p>
+    <p>Warppool may assign these Terms in connection with a merger, acquisition, corporate reorganization, sale of substantially all assets, financing transaction, or transfer of the applicable business.</p>
+
+    <!-- ---------- 35 ---------- -->
+    <h2 id="s35">35. Entire agreement</h2>
+    <p>These Terms, together with any applicable order form, product-specific terms, the Privacy Policy, and other agreements expressly incorporated by reference, constitute the entire agreement between you and Warppool concerning the Service.</p>
+    <p>They supersede prior or contemporaneous agreements concerning the same subject matter, except for agreements expressly preserved in writing.</p>
+
+    <!-- ---------- 36 ---------- -->
+    <h2 id="s36">36. Order of precedence</h2>
+    <p>If there is a conflict among documents governing your use of the Service, the following order applies unless expressly stated otherwise:</p>
+    <ol>
+      <li>a separately executed written agreement between you and Warppool;</li>
+      <li>an applicable order form;</li>
+      <li>product-specific or enterprise terms;</li>
+      <li>these Terms; and</li>
+      <li>other documentation.</li>
+    </ol>
+
+    <!-- ---------- 37 ---------- -->
+    <h2 id="s37">37. Electronic communications and assent</h2>
+    <p>You agree that Warppool may provide notices, disclosures, agreements, and other communications electronically.</p>
+    <p>Electronic acceptance &mdash; including clicking an acceptance button, creating an account, submitting a job, embedding Warppool software, or using the Service after being presented with these Terms &mdash; may constitute legally binding acceptance to the extent permitted by law.</p>
+    <p>Warppool may maintain records of electronic acceptance.</p>
+
+    <!-- ---------- 38 ---------- -->
+    <h2 id="s38">38. Changes to these Terms</h2>
+    <p>Warppool may update these Terms from time to time.</p>
+    <p>For material changes, Warppool may provide notice by posting the revised Terms, updating the &ldquo;Last updated&rdquo; date, sending notice to registered account holders, or using another reasonable notification method.</p>
+    <p>Unless otherwise required by law, continued use of the Service after the effective date of revised Terms constitutes acceptance. If you do not agree to revised Terms, you must stop using the Service.</p>
+
+    <!-- ---------- 39 ---------- -->
+    <h2 id="s39">39. Contact</h2>
+    <p>Questions concerning these Terms may be directed to:</p>
+    <ul>
+      <li>Legal &mdash; <a href="mailto:legal@warppool.tech"><b>legal@warppool.tech</b></a></li>
+      <li>Privacy &mdash; <a href="mailto:privacy@warppool.tech"><b>privacy@warppool.tech</b></a></li>
+    </ul>
+
+    <!-- ---------- Appendix A ---------- -->
+    <div class="legal-appendix">
+      <h2 id="appendix-a">Appendix A &mdash; Publisher-specific terms</h2>
+      <p>These Publisher-specific terms apply to any Publisher that embeds Warppool software.</p>
+
+      <h3>A.1 Publisher authorization</h3>
+      <p>You authorize Warppool to provide the Warppool widget, worker software, APIs, and related services to visitors who interact with the Publisher Property.</p>
+
+      <h3>A.2 Consent</h3>
+      <p>You are responsible for ensuring that visitors receive any disclosures and consent opportunities required by applicable law before computing resources are used.</p>
+      <p>You must not represent Warppool participation as mandatory unless such participation is independently lawful and expressly authorized by Warppool.</p>
+
+      <h3>A.3 Publisher revenue</h3>
+      <p>Where applicable, Publisher credits or compensation are calculated using Warppool&rsquo;s measurement systems, in proportion to the verified compute contributed by visitors to the Publisher Property.</p>
+      <p>Warppool&rsquo;s measurements will control absent manifest error.</p>
+      <p>Warppool may reverse fraudulent, duplicated, manipulated, or improperly generated credits.</p>
+        <p>Warppool may set and/or change the rate that the Publisher is paid without notice.</p>
+        <p>Warppool may adjust the rate paid to the Publisher depending on the local currency the revenue-sharing is paid out in.</p>
+
+      <h3>A.4 Publisher indemnification</h3>
+      <p>The Publisher will indemnify Warppool against claims arising from:</p>
+      <ul>
+        <li>the Publisher Property;</li>
+        <li>Publisher-generated content;</li>
+        <li>failure to obtain legally required consent;</li>
+        <li>misleading disclosures;</li>
+        <li>Publisher modifications to the Warppool widget;</li>
+        <li>Publisher advertising or monetization practices; or</li>
+        <li>the Publisher&rsquo;s violation of law or third-party rights.</li>
+      </ul>
+    </div>
+
+    <!-- ---------- Appendix B ---------- -->
+    <div class="legal-appendix">
+      <h2 id="appendix-b">Appendix B &mdash; Job-submitter terms</h2>
+
+      <h3>B.1 Distributed execution</h3>
+      <p>You expressly acknowledge that jobs submitted to the public Warppool network may be executed on devices operated by independent Workers.</p>
+
+      <h3>B.2 No confidentiality guarantee</h3>
+      <p>Unless Warppool and you execute a separate written confidentiality agreement, Warppool does not guarantee that workload instructions will remain confidential. Do not embed secrets, credentials, or proprietary algorithms in shader source unless you are running on a private coordinator under such an agreement.</p>
+
+      <h3>B.3 Verification</h3>
+      <p>Warppool may execute tasks multiple times or on multiple Workers to validate results.</p>
+
+      <h3>B.4 Resource availability</h3>
+      <p>Workers may join or leave the network at any time. Warppool does not guarantee a minimum number of Workers, GPU capacity, geographic distribution, latency, or throughput. Results are delivered on a best-effort basis.</p>
+    </div>
+
+    <!-- ---------- Appendix C ---------- -->
+    <div class="legal-appendix">
+      <h2 id="appendix-c">Appendix C &mdash; Beta and experimental service terms</h2>
+      <p>Certain Warppool functionality may be identified as beta, experimental, preview, research, alpha, or otherwise pre-release (&ldquo;<b>Experimental Service</b>&rdquo;).</p>
+      <p>Experimental Services may contain bugs, experience downtime, change without notice, produce inaccurate results, lose data, have incomplete functionality, or be discontinued without notice.</p>
+      <p>You use Experimental Services at your own risk.</p>
+      <p class="legal-conspicuous"><b>Warppool&rsquo;s liability for Experimental Services is subject to the same disclaimers and limitations set forth in these Terms to the maximum extent permitted by law.</b></p>
+    </div>
+
+    <!-- ---------- Appendix D ---------- -->
+    <div class="legal-appendix">
+      <h2 id="appendix-d">Appendix D &mdash; No professional advice</h2>
+      <p>Warppool does not provide medical, legal, financial, investment, engineering, scientific, tax, security, or other professional advice.</p>
+      <p>Any computational output is a technical output and not professional advice.</p>
+      <p>You are responsible for obtaining appropriate professional review before relying on Service outputs for consequential decisions.</p>
+    </div>
+
+    <p class="legal-end">End of Terms</p>
+
+   </div>
+  </div>
+</section>
+
+<!-- ============== Tree line =============== -->
+<div class="treeline" aria-hidden="true">
+  <svg viewBox="0 0 1200 130" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <defs>
+      <g id="ts"><polygon points="-10,126 10,126 0,106"/><polygon points="-8,114 8,114 0,96"/><rect x="-2" y="126" width="4" height="4"/></g>
+      <g id="tm"><polygon points="-16,126 16,126 0,100"/><polygon points="-12,108 12,108 0,84"/><polygon points="-9,92 9,92 0,76"/><rect x="-2.5" y="126" width="5" height="4"/></g>
+      <g id="tl"><polygon points="-20,126 20,126 0,92"/><polygon points="-16,102 16,102 0,74"/><polygon points="-12,84 12,84 0,60"/><polygon points="-9,68 9,68 0,48"/><rect x="-2.5" y="126" width="5" height="4"/></g>
+      <g id="bs"><circle cx="0" cy="112" r="9"/><circle cx="-5" cy="106" r="7"/><circle cx="5" cy="106" r="7"/><circle cx="0" cy="100" r="7"/><rect x="-2" y="118" width="4" height="12"/></g>
+      <g id="bm"><circle cx="0" cy="106" r="12"/><circle cx="-9" cy="100" r="9"/><circle cx="9" cy="100" r="9"/><circle cx="-4" cy="92" r="9"/><circle cx="5" cy="90" r="9"/><rect x="-2" y="114" width="4" height="16"/></g>
+      <g id="bl"><circle cx="0" cy="98" r="16"/><circle cx="-12" cy="94" r="10"/><circle cx="12" cy="94" r="10"/><circle cx="-5" cy="82" r="10"/><circle cx="7" cy="80" r="10"/><rect x="-2.5" y="110" width="5" height="20"/></g>
+    </defs>
+    <rect x="0" y="128" width="1200" height="2" fill="#1b1b1b"/>
+    <line x1="0" y1="129" x2="1200" y2="129" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <use href="#ts" x="34"/><use href="#tm" x="82"/><use href="#bm" x="120"/><use href="#ts" x="160"/><use href="#tl" x="207"/><use href="#ts" x="250"/><use href="#bl" x="285"/><use href="#tm" x="332"/><use href="#ts" x="378"/><use href="#tl" x="422"/><use href="#bs" x="460"/><use href="#tm" x="500"/><use href="#tl" x="552"/><use href="#ts" x="598"/><use href="#bm" x="632"/><use href="#tm" x="678"/><use href="#ts" x="724"/><use href="#tl" x="774"/><use href="#ts" x="820"/><use href="#bl" x="855"/><use href="#tm" x="900"/><use href="#ts" x="943"/><use href="#tl" x="988"/><use href="#bs" x="1025"/><use href="#tm" x="1064"/><use href="#tl" x="1112"/><use href="#ts" x="1158"/><use href="#ts" x="1192"/>
+  </svg>
+</div>
+
+<!-- ============== Footer =============== -->
+<footer class="identifier">
+  <div class="container">
+    <div class="identifier__top">
+      <span class="identifier__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <div class="identifier__role">
+        <b>Warppool</b>
+        The monetization layer for the ad-free web. Replace ad networks with compute &mdash; fund sites with idle GPUs instead of surveillance.
+      </div>
+    </div>
+
+    <div class="identifier__cols">
+      <div class="identifier__about">
+        Warppool is the monetization layer for the ad-free web. Publishers replace ad networks with one script tag &mdash; visitors who opt in lend idle GPU cycles to power scientific research and computation. No tracking, no data brokers, no attention tax. <b>Researchers run free. Publishers earn per GPU-millisecond. The web gets funded by useful work instead of surveillance.</b>
+      </div>
+      <div class="identifier__col">
+        <h4>Network</h4>
+        <ul>
+          <li><a href="/run-jobs">Run jobs</a></li>
+          <li><a href="/publishers">For Publishers</a></li>
+          <li><a href="/demos">Demos</a></li>
+          <li><a href="https://warppool.statuspage.io/">Status &amp; uptime</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="/docs">Running jobs</a></li>
+          <li><a href="/docs#kernel">Write a kernel</a></li>
+          <li><a href="/docs#submit">Submit a job</a></li>
+          <li><a href="/docs#mcp">MCP for AI agents</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://linkedin.com/company/warppool/jobs">Careers</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="identifier__meta">
+      <statuspage-widget src="https://warppool.statuspage.io"></statuspage-widget>
+      <span>&copy; 2026 Warppool &middot; v0.3.1</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/warppool.js"></script>
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+  const nav = document.querySelector('.site-nav');
+  const open = nav.classList.toggle('is-open');
+  this.classList.toggle('is-open', open);
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.js"></script>
+<script src="https://unpkg.com/@statuspage/status-widget/dist/index.js"></script>
+</body>
+</html>

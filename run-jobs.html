@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<!-- Run-jobs page (/run-jobs): marketing/how-to for submitting compute jobs. -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Run Jobs — Warppool</title>
+<meta name="description" content="Submit embarrassingly parallel compute to the Warppool network. Ship a shader and a task manifest; get the aggregated result back, verified by redundancy." />
+<link rel="stylesheet" href="/assets/warppool.css" />
+<link rel="icon" type="image/png" href="/assets/warppool-icon.png" />
+<link rel="apple-touch-icon" href="/assets/warppool-icon.png" />
+<style>
+/* ---- /run-jobs page layout ---- */
+
+/* Hero: quiet dot-grid backdrop echoing the brand mark — no scenery */
+.rj-hero { position: relative; overflow: hidden; }
+.rj-hero__grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0, 94, 162, 0.30) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 95% at 50% 0%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(ellipse 75% 95% at 50% 0%, #000 0%, transparent 72%);
+}
+.rj-hero .container { position: relative; z-index: 1; text-align: center; }
+.rj-hero h1 { max-width: 24ch; margin-left: auto; margin-right: auto; }
+.rj-hero h1 em { color: var(--color-primary); font-style: normal; }
+.rj-hero .lead { max-width: 42rem; margin-left: auto; margin-right: auto; }
+.rj-hero .hero__actions { justify-content: center; }
+
+.rj-metabar { justify-content: center; margin: -12px auto 36px; }
+
+/* Stat tiles (Why Warppool) */
+.stat-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.stat-tile { padding: 24px; background: var(--bg-1); border: 1px solid var(--border-default); border-top: 3px solid var(--color-primary); }
+.stat-tile__value { font-family: var(--font-serif); font-size: 32px; font-weight: 700; color: var(--color-primary); line-height: 1; }
+.stat-tile__label { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.06em; margin: 6px 0 10px; }
+.stat-tile p { font-size: 14px; color: var(--fg-2); margin: 0; }
+
+/* Submit flow: five numbered steps */
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+.step { padding: 20px 18px; background: var(--bg-1); border: 1px solid var(--border-default); }
+.step__num { font-family: var(--font-mono); font-size: 11px; color: var(--color-primary); letter-spacing: 0.08em; display: block; margin-bottom: 8px; }
+.step b { font-family: var(--font-serif); font-size: 16px; display: block; margin-bottom: 6px; }
+.step span { font-size: 13px; color: var(--fg-2); line-height: 1.5; }
+
+/* Side-by-side code blocks */
+.code-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+@media (max-width: 900px) {
+  .stat-tiles { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .code-cols { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .stat-tiles { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== Header =============== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="brand__name">Warppool</span>
+      <span class="brand__divider"></span>
+      <span class="brand__role"><b>Ad-free web</b>monetize with compute, not surveillance</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Overview</a>
+      <a href="/publishers">For Publishers</a>
+      <a href="/run-jobs" class="is-active">Run Jobs</a>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/docs">Docs</a>
+      <span class="header-live" title="Unique workers that contributed in the last 24 hours">
+        <span class="header-live__dot"></span>
+        <span data-live="workers">&mdash;</span>&nbsp;workers
+      </span>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/sign-in" class="site-nav__signin">Sign in</a>
+      <a href="/sign-up" class="site-nav__signup">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== Hero =============== -->
+<section class="hero rj-hero">
+  <div class="rj-hero__grid" aria-hidden="true"></div>
+  <div class="container">
+    <div class="eyebrow-divider">For researchers, ML teams &amp; compute buyers</div>
+    <h1>Thousands of GPUs. <em>No cloud bill.</em></h1>
+    <p class="lead">Warppool distributes your compute across browser GPUs worldwide. Free for researchers &mdash; no cap, no waitlist. Commercial workloads pay ~$0.04/GPU-hour, billed per millisecond of verified compute. Ship a WGSL kernel; get the aggregated result back.</p>
+    <div class="hero__actions">
+      <a class="btn btn--primary btn--lg" href="#submit">Submit a job</a>
+      <a class="btn btn--outline btn--lg" href="#economics">See pricing</a>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="metabar rj-metabar">
+    <span><b><span data-live="workers">&mdash;</span></b>&nbsp;unique workers</span>
+    <span><b><span data-live="gpu_hours">&mdash;</span></b>&nbsp;GPU-hours delivered</span>
+    <span><b>p50 task return</b>&nbsp;1.8&nbsp;s</span>
+    <span><b>Largest job this month</b>&nbsp;4.1B samples</span>
+  </div>
+</div>
+
+<!-- ============== Why Warppool =============== -->
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">Why Warppool</div>
+      <h2>Compute that runs on hardware that already exists.</h2>
+      <p>Every job on Warppool runs on consumer GPUs that are already manufactured, already powered on, and already idle in browser tabs. No new data center capacity needed.</p>
+    </div>
+
+    <div class="stat-tiles">
+      <div class="stat-tile">
+        <div class="stat-tile__value">$0</div>
+        <div class="stat-tile__label">For researchers</div>
+        <p>EDU email gets unlimited compute. No grant, no cap, no waitlist.</p>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-tile__value">~$0.04</div>
+        <div class="stat-tile__label">Per GPU-hour, commercial</div>
+        <p>Billed per millisecond. Only verified results. Failed tasks are free.</p>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-tile__value">0</div>
+        <div class="stat-tile__label">New servers spun up</div>
+        <p>Runs on idle consumer GPUs. No new hardware. No new carbon.</p>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-tile__value">curl</div>
+        <div class="stat-tile__label">Is all you need</div>
+        <p>No SDK, no cloud account, no Terraform. HTTPS + JSON, that's it.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 24px; border-left-color: var(--color-success);">
+      <b>The environmental case</b>
+      <p>Data centers consume ~1.5% of global electricity and growing. Most of that powers hardware idle between bursts. Warppool flips the model: instead of building more servers, use the GPUs already plugged in everywhere. Every job you run here is a job that didn't need a new rack, a new cooling system, or a new power contract.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Submit flow =============== -->
+<section class="section" id="submit">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">Submit flow</div>
+      <h2>Five things you hand Warppool.</h2>
+      <p>That's the whole interface — no SDK, no cloud account. Anything that speaks HTTPS and JSON can submit a job.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <b>Kernel</b>
+        <span>A WGSL compute shader — the standard GPU shader language. Or write Python and compile it (see below).</span>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <b>Manifest</b>
+        <span>How the job splits into independent work units: seed ranges, sample counts, per-chunk parameters.</span>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <b>Reducer</b>
+        <span>How results combine — <code>sum</code>, <code>max</code>, <code>mean</code>, or a custom reduction kernel.</span>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <b>Redundancy</b>
+        <span>Each task is independently verified by 2–3 workers. Disagreements are re-run; you never see them.</span>
+      </div>
+      <div class="step">
+        <span class="step__num">05</span>
+        <b>Deadline</b>
+        <span>Optional. The scheduler prioritizes chunks to land the full result before your cutoff.</span>
+      </div>
+    </div>
+
+    <a class="btn btn--outline btn--lg" href="/docs">Full walkthrough in the docs →</a>
+  </div>
+</section>
+
+<!-- ============== Code example =============== -->
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">A complete example</div>
+      <h2>Submit a Monte Carlo π job.</h2>
+      <p>What a real submission looks like end-to-end — kernel, manifest, and the REST call. About 60 lines including comments.</p>
+    </div>
+
+    <div class="code-cols">
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <span class="demo__lights"><span></span><span></span><span></span></span>
+          <span class="file">monte_carlo_pi.wgsl</span>
+          <button class="copy" data-copy-target="#kernel-src">Copy</button>
+        </div>
+<pre id="kernel-src">@group(0) @binding(0) <span class="k">var</span>&lt;uniform&gt; params: Params;
+@group(0) @binding(1) <span class="k">var</span>&lt;storage, read_write&gt; hits: <span class="k">atomic</span>&lt;u32&gt;;
+
+<span class="k">struct</span> Params {
+  seed_start:         <span class="k">u32</span>,
+  num_samples:        <span class="k">u32</span>,
+  samples_per_thread: <span class="k">u32</span>,
+}
+
+<span class="c">// PCG hash — fast, good statistical properties</span>
+<span class="k">fn</span> pcg(x: <span class="k">u32</span>) -&gt; <span class="k">u32</span> {
+  <span class="k">var</span> s = x * <span class="n">747796405u</span> + <span class="n">2891336453u</span>;
+  <span class="k">var</span> w = ((s &gt;&gt; ((s &gt;&gt; <span class="n">28u</span>) + <span class="n">4u</span>)) ^ s) * <span class="n">277803737u</span>;
+  <span class="k">return</span> (w &gt;&gt; <span class="n">22u</span>) ^ w;
+}
+
+@compute @workgroup_size(<span class="n">256</span>)
+<span class="k">fn</span> <span class="p">main</span>(@builtin(global_invocation_id) gid: <span class="k">vec3</span>&lt;<span class="k">u32</span>&gt;) {
+  <span class="k">let</span> tid = gid.x;
+  <span class="k">var</span> state = pcg(pcg(params.seed_start + tid));
+  <span class="k">var</span> local_hits: <span class="k">u32</span> = <span class="n">0u</span>;
+  <span class="k">for</span> (<span class="k">var</span> i: <span class="k">u32</span> = <span class="n">0u</span>; i &lt; params.samples_per_thread; i = i + <span class="n">1u</span>) {
+    state = pcg(state);
+    <span class="k">let</span> x = <span class="k">f32</span>(state) / <span class="n">4294967296.0</span>;
+    state = pcg(state);
+    <span class="k">let</span> y = <span class="k">f32</span>(state) / <span class="n">4294967296.0</span>;
+    <span class="k">if</span> (x*x + y*y &lt; <span class="n">1.0</span>) { local_hits = local_hits + <span class="n">1u</span>; }
+  }
+  <span class="p">atomicAdd</span>(&amp;hits, local_hits);
+}</pre>
+      </div>
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <span class="demo__lights"><span></span><span></span><span></span></span>
+          <span class="file">submit.sh</span>
+          <button class="copy" data-copy-target="#sub-src">Copy</button>
+        </div>
+<pre id="sub-src"><span class="c"># 1. Upload the kernel</span>
+<span class="p">$</span> curl <span class="s">https://warppool.tech/api/kernels</span> \
+    -F <span class="s">"src=@monte_carlo_pi.wgsl"</span>
+&gt; { <span class="s">"kernel_id"</span>: <span class="s">"wgsl-pi-7f3"</span> }
+
+<span class="c"># 2. Build a chunk manifest — 100 chunks of</span>
+<span class="c"># 100M samples each, distinct seed ranges</span>
+<span class="p">$</span> python -c <span class="s">"
+import json
+print(json.dumps({
+  'chunks': [
+    {'seed_start': i * (1&lt;&lt;24),
+     'num_samples': 100_000_000,
+     'samples_per_thread': 256}
+    for i in range(100)
+  ],
+}))"</span> &gt; manifest.json
+
+<span class="c"># 3. Submit the job</span>
+<span class="p">$</span> curl <span class="s">https://warppool.tech/api/jobs</span> \
+    -H <span class="s">"Authorization: Bearer $WARPPOOL_TOKEN"</span> \
+    -F <span class="s">"kernel_id=wgsl-pi-7f3"</span> \
+    -F <span class="s">"manifest=@manifest.json"</span> \
+    -F <span class="s">"reducer=sum"</span> \
+    -F <span class="s">"redundancy=2"</span>
+&gt; { <span class="s">"job_id"</span>: <span class="s">"job-9a2c"</span>,
+    <span class="s">"queued_at"</span>: <span class="s">"2026-05-27T14:02:11Z"</span>,
+    <span class="s">"chunks"</span>: <span class="n">100</span>, <span class="s">"est_seconds"</span>: <span class="n">38</span> }
+
+<span class="c"># 4. Stream results back</span>
+<span class="p">$</span> curl <span class="s">https://warppool.tech/api/jobs/job-9a2c/stream</span>
+event: chunk_done
+data: {<span class="s">"chunk"</span>:<span class="n">0</span>,<span class="s">"hits"</span>:<span class="n">78539701</span>,<span class="s">"by"</span>:[<span class="s">"w-3f1a"</span>,<span class="s">"w-92e0"</span>]}
+event: chunk_done
+data: {<span class="s">"chunk"</span>:<span class="n">1</span>,<span class="s">"hits"</span>:<span class="n">78540234</span>,<span class="s">"by"</span>:[<span class="s">"w-441e"</span>,<span class="s">"w-2bf8"</span>]}
+...
+event: job_done
+data: {<span class="s">"pi"</span>:<span class="n">3.14159265</span>,<span class="s">"hits"</span>:<span class="n">7853981633</span>}</pre>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 24px;">
+      <b>Prefer Python? Skip the WGSL.</b>
+      <p>Our open-source <a href="https://pypi.org/project/py2wgsl/"><code>py2wgsl</code></a> package (<code>pip install py2wgsl</code>) compiles annotated Python functions straight to WGSL compute shaders — write your kernel as ordinary Python, get the shader and its bindings generated for you.</p>
+    </div>
+
+    <div class="callout" style="margin-top: 16px;">
+      <b>No SDK, no lock-in.</b>
+      <p>The submit protocol is HTTPS and JSON; the worker protocol is JSON over WebSocket. Anything that speaks REST can submit a job. Enterprise customers running on a private pool use the same API, unchanged.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Economics =============== -->
+<section class="section" id="economics">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">Pricing</div>
+      <h2>Pay for what you used. Down to the millisecond.</h2>
+      <p>Compute is billed in <em>milliseconds of completed work</em> — one ms equals one millisecond of GPU time on a calibrated mid-range device (the M-series benchmark). You only pay for tasks that returned a verified result. Failed tasks, timeouts, canary tasks, and redundant re-runs cost you nothing. Researchers run free.</p>
+    </div>
+
+    <div class="cards cards--2">
+      <article class="card card--fit">
+        <span class="card__tag">Researchers · free</span>
+        <h3>Free, no cap, for researchers.</h3>
+        <p>Anyone with a verifiable institutional affiliation — university, public lab, K-12 school, registered research org — runs free. No monthly cap; the only ask is that you don't be silly with it. Class projects, replication studies, exploratory grad work all qualify.</p>
+        <div class="card__meta"><span><b>Cap</b>&nbsp;none</span><span><b>Verification</b>&nbsp;EDU email + handshake</span></div>
+      </article>
+      <article class="card card--fit">
+        <span class="card__tag">Sponsor pool</span>
+        <h3>Sites earn credits; you spend them.</h3>
+        <p>Embed the worker tag on your own site and every completed millisecond of visitor compute lands in your account. Spend it on your own jobs, or push it into the researcher pool. 1 GPU-ms in, 1 GPU-ms out — no transfer fee, no cut.</p>
+        <div class="card__meta"><span><b>Earn rate</b>&nbsp;1 GPU-ms / device-ms</span><span><b>Transfer fee</b>&nbsp;0</span></div>
+      </article>
+      <article class="card">
+        <span class="card__tag">Pay as you go</span>
+        <h3>Billed per millisecond. Completion only.</h3>
+        <p>For commercial workloads, compute is metered at the millisecond and billed only when the task returns a result that passes verification. Failed, retried, and canary tasks are absorbed by the network. Indicative rate works out to about $0.04 per GPU-hour.</p>
+        <div class="card__meta"><span><b>Indicative</b>&nbsp;$0.04 / GPU-hour</span><span><b>Granularity</b>&nbsp;per ms</span></div>
+      </article>
+      <article class="card">
+        <span class="card__tag">Enterprise · private pool</span>
+        <h3>Private Warppool instance for sensitive workloads.</h3>
+        <p>For teams that need an isolated worker fleet, a dedicated scheduler, regional data residency, or contractual guarantees we don't offer on the public pool — talk to us about a private deployment. Same API, same kernels.</p>
+        <div class="card__meta"><span><b>Pricing</b>&nbsp;by contract</span><span><b>SLA</b>&nbsp;available</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Good fit / bad fit =============== -->
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">Is your workload a fit?</div>
+      <h2>Warppool wins when the math is heavy and the data is light.</h2>
+      <p>Shipping a task across consumer connections costs real time. The job pays for itself only if computing the task takes meaningfully longer than transferring the bytes that describe it. Rule of thumb: high FLOPs-per-byte, embarrassingly parallel, tolerant of stragglers.</p>
+    </div>
+
+    <div class="fit">
+      <div class="fit__col">
+        <div class="fit__head ok"><span class="badge">✓</span>Built for this</div>
+        <ul>
+          <li><b>Monte Carlo &amp; stochastic simulation</b><span>seeds in, scalar out. Highest FLOPs-per-byte you'll ever see.</span></li>
+          <li><b>Parameter sweeps &amp; hyperparameter search</b><span>same kernel, different constants per task.</span></li>
+          <li><b>Batched ML inference</b><span>vision model + 10k images: each image is its own task.</span></li>
+          <li><b>Tiled offline rendering</b><span>path tracing, scientific visualization, splat extraction.</span></li>
+          <li><b>Brute-force search</b><span>cryptanalysis benchmarks, combinatorial enumeration, scan-and-filter.</span></li>
+        </ul>
+      </div>
+      <div class="fit__col">
+        <div class="fit__head no"><span class="badge">!</span>Look elsewhere</div>
+        <ul>
+          <li><b>Training large models</b><span>tasks must talk mid-step. Use a tightly coupled cluster.</span></li>
+          <li><b>Latency-critical inference</b><span>round-trip over WebSocket dominates anything under ~150ms.</span></li>
+          <li><b>Big-data ETL</b><span>moving terabytes through volunteer pipes is the wrong direction.</span></li>
+          <li><b>Regulated data</b><span>volunteer nodes are untrusted; PHI, PII, classified work doesn't belong here.</span></li>
+          <li><b>Bit-exact reproducibility</b><span>different GPUs round floats differently. Use integer kernels if exactness matters.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Closing CTA =============== -->
+<section class="section">
+  <div class="container split">
+    <div>
+      <div class="kicker">Get started</div>
+      <h2 style="font-family: var(--font-serif); font-size: 32px; line-height: 1.15; margin: 14px 0 14px; max-width: 18ch;">Apply for a free-tier grant.</h2>
+      <p style="font-size: 17px; color: var(--fg-2); max-width: 36rem;">Two-line description of your project, an institutional email, and a sample kernel. We turn most grants around in 48 hours. Commercial workloads can submit any time.</p>
+      <div style="display:flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+        <a class="btn btn--primary btn--lg" href="/sign-up">Request free-tier access</a>
+        <a class="btn btn--outline btn--lg" href="/docs">Read the docs</a>
+      </div>
+    </div>
+    <div style="background: var(--bg-2); padding: 32px; border-radius: 4px;">
+      <h4 style="font-family: var(--font-sans); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-2); margin: 0 0 18px;">What you get on day one</h4>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="padding: 12px 0; border-bottom: 1px solid var(--border-default); display: flex; gap: 12px; align-items: baseline;"><span style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); width: 40px;">01</span><span><b>Unlimited compute, free.</b> Per institution. Just don't be silly with it.</span></li>
+        <li style="padding: 12px 0; border-bottom: 1px solid var(--border-default); display: flex; gap: 12px; align-items: baseline;"><span style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); width: 40px;">02</span><span><b>Kernel library access.</b> Common reductions, FFTs, matmul — drop-in.</span></li>
+        <li style="padding: 12px 0; border-bottom: 1px solid var(--border-default); display: flex; gap: 12px; align-items: baseline;"><span style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); width: 40px;">03</span><span><b>Job dashboard.</b> Citable URL per job, audit log included.</span></li>
+        <li style="padding: 12px 0; display: flex; gap: 12px; align-items: baseline;"><span style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); width: 40px;">04</span><span><b>Forum + office hours.</b> We can help you port your kernel.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Tree line — subtle horizon above the footer =============== -->
+<div class="treeline" aria-hidden="true">
+  <svg viewBox="0 0 1200 130" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <defs>
+      <g id="ts">
+        <polygon points="-10,126 10,126 0,106"/>
+        <polygon points="-8,114 8,114 0,96"/>
+        <rect x="-2" y="126" width="4" height="4"/>
+      </g>
+      <g id="tm">
+        <polygon points="-16,126 16,126 0,100"/>
+        <polygon points="-12,108 12,108 0,84"/>
+        <polygon points="-9,92 9,92 0,76"/>
+        <rect x="-2.5" y="126" width="5" height="4"/>
+      </g>
+      <g id="tl">
+        <polygon points="-20,126 20,126 0,92"/>
+        <polygon points="-16,102 16,102 0,74"/>
+        <polygon points="-12,84 12,84 0,60"/>
+        <polygon points="-9,68 9,68 0,48"/>
+        <rect x="-2.5" y="126" width="5" height="4"/>
+      </g>
+      <g id="bs">
+        <circle cx="0" cy="112" r="9"/>
+        <circle cx="-5" cy="106" r="7"/>
+        <circle cx="5" cy="106" r="7"/>
+        <circle cx="0" cy="100" r="7"/>
+        <rect x="-2" y="118" width="4" height="12"/>
+      </g>
+      <g id="bm">
+        <circle cx="0" cy="106" r="12"/>
+        <circle cx="-9" cy="100" r="9"/>
+        <circle cx="9" cy="100" r="9"/>
+        <circle cx="-4" cy="92" r="9"/>
+        <circle cx="5" cy="90" r="9"/>
+        <rect x="-2" y="114" width="4" height="16"/>
+      </g>
+      <g id="bl">
+        <circle cx="0" cy="98" r="16"/>
+        <circle cx="-12" cy="94" r="10"/>
+        <circle cx="12" cy="94" r="10"/>
+        <circle cx="-5" cy="82" r="10"/>
+        <circle cx="7" cy="80" r="10"/>
+        <rect x="-2.5" y="110" width="5" height="20"/>
+      </g>
+    </defs>
+    <rect x="0" y="128" width="1200" height="2" fill="#1b1b1b"/>
+    <line x1="0" y1="129" x2="1200" y2="129" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <use href="#ts" x="34"/>
+    <use href="#tm" x="82"/>
+    <use href="#bm" x="120"/>
+    <use href="#ts" x="160"/>
+    <use href="#tl" x="207"/>
+    <use href="#ts" x="250"/>
+    <use href="#bl" x="285"/>
+    <use href="#tm" x="332"/>
+    <use href="#ts" x="378"/>
+    <use href="#tl" x="422"/>
+    <use href="#bs" x="460"/>
+    <use href="#tm" x="500"/>
+    <use href="#tl" x="552"/>
+    <use href="#ts" x="598"/>
+    <use href="#bm" x="632"/>
+    <use href="#tm" x="678"/>
+    <use href="#ts" x="724"/>
+    <use href="#tl" x="774"/>
+    <use href="#ts" x="820"/>
+    <use href="#bl" x="855"/>
+    <use href="#tm" x="900"/>
+    <use href="#ts" x="943"/>
+    <use href="#tl" x="988"/>
+    <use href="#bs" x="1025"/>
+    <use href="#tm" x="1064"/>
+    <use href="#tl" x="1112"/>
+    <use href="#ts" x="1158"/>
+    <use href="#ts" x="1192"/>
+  </svg>
+</div>
+
+<!-- ============== Footer =============== -->
+<footer class="identifier">
+  <div class="container">
+    <div class="identifier__top">
+      <span class="identifier__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <div class="identifier__role">
+        <b>Warppool</b>
+        The monetization layer for the ad-free web. Replace ad networks with compute &mdash; fund sites with idle GPUs instead of surveillance.
+      </div>
+    </div>
+
+    <div class="identifier__cols">
+      <div class="identifier__about">
+        Warppool is the monetization layer for the ad-free web. Publishers replace ad networks with one script tag — visitors who opt in lend idle GPU cycles to power scientific research and computation. No tracking, no data brokers, no attention tax. <b>Researchers run free. Publishers earn per GPU-millisecond. The web gets funded by useful work instead of surveillance.</b>
+      </div>
+      <div class="identifier__col">
+        <h4>Network</h4>
+        <ul>
+          <li><a href="/run-jobs">Run jobs</a></li>
+          <li><a href="/publishers">For Publishers</a></li>
+          <li><a href="/demos">Demos</a></li>
+          <li><a href="https://warppool.statuspage.io/">Status &amp; uptime</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="/docs">Running jobs</a></li>
+          <li><a href="/docs#kernel">Write a kernel</a></li>
+          <li><a href="/docs#submit">Submit a job</a></li>
+          <li><a href="/docs#mcp">MCP for AI agents</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://linkedin.com/company/warppool/jobs">Careers</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="identifier__meta">
+      <statuspage-widget src="https://warppool.statuspage.io"></statuspage-widget>
+      <span>© 2026 Warppool &middot; v0.3.1</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/warppool.js"></script>
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+  const nav = document.querySelector('.site-nav');
+  const open = nav.classList.toggle('is-open');
+  this.classList.toggle('is-open', open);
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.js"></script>
+<script src="https://unpkg.com/@statuspage/status-widget/dist/index.js"></script>
+</body>
+</html>

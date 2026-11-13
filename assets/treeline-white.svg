@@ -1,0 +1,75 @@
+<svg viewBox="0 0 1200 130" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" fill="#ffffff">
+  <defs>
+    <g id="ts">
+      <polygon points="-10,126 10,126 0,106"/>
+      <polygon points="-8,114 8,114 0,96"/>
+      <rect x="-2" y="126" width="4" height="4"/>
+    </g>
+    <g id="tm">
+      <polygon points="-16,126 16,126 0,100"/>
+      <polygon points="-12,108 12,108 0,84"/>
+      <polygon points="-9,92 9,92 0,76"/>
+      <rect x="-2.5" y="126" width="5" height="4"/>
+    </g>
+    <g id="tl">
+      <polygon points="-20,126 20,126 0,92"/>
+      <polygon points="-16,102 16,102 0,74"/>
+      <polygon points="-12,84 12,84 0,60"/>
+      <polygon points="-9,68 9,68 0,48"/>
+      <rect x="-2.5" y="126" width="5" height="4"/>
+    </g>
+    <g id="bs">
+      <circle cx="0" cy="112" r="9"/>
+      <circle cx="-5" cy="106" r="7"/>
+      <circle cx="5" cy="106" r="7"/>
+      <circle cx="0" cy="100" r="7"/>
+      <rect x="-2" y="118" width="4" height="12"/>
+    </g>
+    <g id="bm">
+      <circle cx="0" cy="106" r="12"/>
+      <circle cx="-9" cy="100" r="9"/>
+      <circle cx="9" cy="100" r="9"/>
+      <circle cx="-4" cy="92" r="9"/>
+      <circle cx="5" cy="90" r="9"/>
+      <rect x="-2" y="114" width="4" height="16"/>
+    </g>
+    <g id="bl">
+      <circle cx="0" cy="98" r="16"/>
+      <circle cx="-12" cy="94" r="10"/>
+      <circle cx="12" cy="94" r="10"/>
+      <circle cx="-5" cy="82" r="10"/>
+      <circle cx="7" cy="80" r="10"/>
+      <rect x="-2.5" y="110" width="5" height="20"/>
+    </g>
+  </defs>
+  <rect x="0" y="128" width="1200" height="2" fill="#ffffff"/>
+  <line x1="0" y1="129" x2="1200" y2="129" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+  <use href="#ts" x="34"/>
+  <use href="#tm" x="82"/>
+  <use href="#bm" x="120"/>
+  <use href="#ts" x="160"/>
+  <use href="#tl" x="207"/>
+  <use href="#ts" x="250"/>
+  <use href="#bl" x="285"/>
+  <use href="#tm" x="332"/>
+  <use href="#ts" x="378"/>
+  <use href="#tl" x="422"/>
+  <use href="#bs" x="460"/>
+  <use href="#tm" x="500"/>
+  <use href="#tl" x="552"/>
+  <use href="#ts" x="598"/>
+  <use href="#bm" x="632"/>
+  <use href="#tm" x="678"/>
+  <use href="#ts" x="724"/>
+  <use href="#tl" x="774"/>
+  <use href="#ts" x="820"/>
+  <use href="#bl" x="855"/>
+  <use href="#tm" x="900"/>
+  <use href="#ts" x="943"/>
+  <use href="#tl" x="988"/>
+  <use href="#bs" x="1025"/>
+  <use href="#tm" x="1064"/>
+  <use href="#tl" x="1112"/>
+  <use href="#ts" x="1158"/>
+  <use href="#ts" x="1192"/>
+</svg>

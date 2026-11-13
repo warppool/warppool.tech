@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<!-- Publishers page (/publishers): how to lend your GPU / become a worker. -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For Publishers — Replace Ads with Compute | Warppool</title>
+<meta name="description" content="Drop your ad network. Embed one script tag. Visitors who opt in lend idle GPU cycles to fund your site — no tracking, no data brokers, no middleman taking 50%. The monetization layer for the ad-free web." />
+<link rel="stylesheet" href="/assets/warppool.css" />
+<link rel="icon" type="image/png" href="/assets/warppool-icon.png" />
+<link rel="apple-touch-icon" href="/assets/warppool-icon.png" />
+<style>
+/* The consent-modal mockup is desktop marketing material — once the hero
+   stacks (≤960px) it reads like a real popup and clutters the page. */
+@media (max-width: 960px) {
+  .consent-mock { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== Header =============== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="brand__name">Warppool</span>
+      <span class="brand__divider"></span>
+      <span class="brand__role"><b>Ad-free web</b>monetize with compute, not surveillance</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Overview</a>
+      <a href="/publishers" class="is-active">For Publishers</a>
+      <a href="/run-jobs">Run Jobs</a>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/docs">Docs</a>
+      <span class="header-live" title="Unique workers that contributed in the last 24 hours">
+        <span class="header-live__dot"></span>
+        <span data-live="workers">&mdash;</span>&nbsp;workers
+      </span>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/sign-in" class="site-nav__signin">Sign in</a>
+      <a href="/sign-up" class="site-nav__signup">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== Hero =============== -->
+<section class="hero">
+  <div class="container hero__inner">
+    <div>
+      <div class="eyebrow-divider">For publishers</div>
+      <h1>Drop your ad network. <em>Ship one tag. Earn from compute.</em></h1>
+      <p class="lead">The ad-tech stack takes 50&ndash;70% of every dollar, tracks your readers across the web, and slows your site down with third-party scripts. Warppool is the alternative: one <code>&lt;script&gt;</code> tag, visitors who opt in lend idle GPU cycles, and every millisecond of completed compute earns revenue for your site. One published rate. No tracking. No data leaves the reader's machine.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="#embed">Get the embed snippet</a>
+        <a class="btn btn--outline btn--lg" href="#consent">See the consent flow</a>
+      </div>
+      <p class="hero__caveat">The web's first viable alternative to selling attention. Free for sites under 1M monthly visitors.</p>
+    </div>
+
+    <!-- Inline mock of the consent modal (Option 2: illustration style) -->
+    <div class="consent-mock" style="background: #fff; border: 1px solid var(--border-default); border-radius: 14px; padding: 0; box-shadow: 0 8px 40px rgba(0,0,0,0.18); overflow: hidden;">
+      <div style="background: var(--bg-2); padding: 8px 14px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em; border-bottom: 1px solid var(--border-default); display: flex; align-items: center; gap: 8px;">
+        <span style="display:inline-flex; gap: 4px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#d83933;"></span>
+          <span style="width:8px;height:8px;border-radius:50%;background:#ffbe2e;"></span>
+          <span style="width:8px;height:8px;border-radius:50%;background:#00a91c;"></span>
+        </span>
+        <span></span> <!-- What a visitor sees -->
+      </div>
+      <div style="display: flex; min-height: 260px;">
+        <!-- Left panel: illustration + text -->
+        <div style="flex: 1; background: #f7faff; display: flex; flex-direction: column; padding: 0 0 16px 0; position: relative; overflow: hidden;">
+          <!-- Scene illustration -->
+          <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px;">
+            <svg viewBox="0 0 480 160" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <radialGradient id="cb1" cx="18%" cy="40%" r="30%"><stop offset="0%" stop-color="#dbeafe" stop-opacity="0.7"/><stop offset="100%" stop-color="#dbeafe" stop-opacity="0"/></radialGradient>
+                <radialGradient id="cb2" cx="82%" cy="35%" r="28%"><stop offset="0%" stop-color="#d1fae5" stop-opacity="0.5"/><stop offset="100%" stop-color="#d1fae5" stop-opacity="0"/></radialGradient>
+                <radialGradient id="cb3" cx="50%" cy="80%" r="35%"><stop offset="0%" stop-color="#fef3c7" stop-opacity="0.35"/><stop offset="100%" stop-color="#fef3c7" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="480" height="160" fill="url(#cb1)"/>
+              <rect width="480" height="160" fill="url(#cb2)"/>
+              <rect width="480" height="160" fill="url(#cb3)"/>
+              <!-- Person on couch -->
+              <path d="M18 120 Q18 105 28 105 L112 105 Q122 105 122 120 L122 135 L18 135 Z" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5" opacity="0.5"/>
+              <path d="M10 112 Q10 105 18 105 L18 135 L10 135 Z" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.2" opacity="0.4"/>
+              <path d="M122 112 Q122 105 130 105 L130 135 L122 135 Z" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.2" opacity="0.4"/>
+              <circle cx="70" cy="68" r="16" fill="#fde68a" stroke="#d97706" stroke-width="1.8" opacity="0.7"/>
+              <circle cx="64" cy="66" r="2" fill="#92400e" opacity="0.6"/>
+              <circle cx="76" cy="66" r="2" fill="#92400e" opacity="0.6"/>
+              <path d="M63 74 Q70 81 77 74" stroke="#92400e" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.55"/>
+              <path d="M54 84 Q54 95 70 95 Q86 95 86 84" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5" opacity="0.55"/>
+              <rect x="52" y="94" width="36" height="14" rx="4" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.2" opacity="0.4"/>
+              <rect x="45" y="100" width="50" height="5" rx="2" fill="#e2e8f0" stroke="#64748b" stroke-width="1.2" opacity="0.6"/>
+              <rect x="48" y="82" width="44" height="20" rx="3" fill="#f0f9ff" stroke="#3b82f6" stroke-width="1.5" opacity="0.55"/>
+              <line x1="53" y1="88" x2="72" y2="88" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+              <line x1="53" y1="92" x2="86" y2="92" stroke="#94a3b8" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
+              <rect x="76" y="85" width="12" height="7" rx="1.5" fill="#fecaca" stroke="#ef4444" stroke-width="0.8" opacity="0.5"/>
+              <line x1="77" y1="91" x2="87" y2="86" stroke="#ef4444" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+              <path d="M105 55 L107 48 L109 55 L116 57 L109 59 L107 66 L105 59 L98 57 Z" fill="#f59e0b" opacity="0.45"/>
+              <path d="M35 52 L36.5 47 L38 52 L43 53.5 L38 55 L36.5 60 L35 55 L30 53.5 Z" fill="#3b82f6" opacity="0.3"/>
+              <rect x="134" y="118" width="8" height="18" rx="3" fill="#d1d5db" stroke="#9ca3af" stroke-width="1" opacity="0.45"/>
+              <circle cx="138" cy="112" r="10" fill="#86efac" stroke="#22c55e" stroke-width="1.2" opacity="0.4"/>
+              <circle cx="132" cy="108" r="7" fill="#86efac" stroke="#22c55e" stroke-width="1" opacity="0.35"/>
+              <circle cx="144" cy="108" r="7" fill="#86efac" stroke="#22c55e" stroke-width="1" opacity="0.3"/>
+              <!-- Flowing arcs -->
+              <path d="M155 90 Q200 20 240 65 Q280 110 325 55" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="6 4" fill="none" opacity="0.3"/>
+              <path d="M160 110 Q210 60 260 85 Q310 110 340 80" stroke="#8b5cf6" stroke-width="1.8" stroke-dasharray="4 5" fill="none" opacity="0.2"/>
+              <!-- Devices -->
+              <rect x="170" y="42" width="18" height="30" rx="4" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5" opacity="0.55"/>
+              <circle cx="179" cy="67" r="2" fill="#8b5cf6" opacity="0.35"/>
+              <rect x="220" y="28" width="34" height="24" rx="4" fill="#f0fdf4" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+              <line x1="226" y1="35" x2="248" y2="35" stroke="#86efac" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+              <rect x="270" y="55" width="32" height="22" rx="3" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5" opacity="0.5"/>
+              <rect x="282" y="77" width="8" height="6" rx="1" fill="#fde68a" stroke="#f59e0b" stroke-width="1" opacity="0.35"/>
+              <circle cx="279" cy="64" r="2" fill="#f59e0b" opacity="0.35"/>
+              <circle cx="286" cy="64" r="2" fill="#22c55e" opacity="0.3"/>
+              <circle cx="293" cy="64" r="2" fill="#3b82f6" opacity="0.3"/>
+              <circle cx="195" cy="55" r="3" fill="#8b5cf6" opacity="0.25"/>
+              <circle cx="255" cy="50" r="2" fill="#22c55e" opacity="0.25"/>
+              <!-- Newspaper -->
+              <rect x="345" y="18" width="120" height="130" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="2" opacity="0.6"/>
+              <rect x="355" y="26" width="100" height="14" rx="2" fill="#eff6ff" opacity="0.7"/>
+              <line x1="365" y1="33" x2="420" y2="33" stroke="#1e40af" stroke-width="2.2" stroke-linecap="round" opacity="0.45"/>
+              <rect x="355" y="46" width="100" height="36" rx="3" fill="#dbeafe" stroke="#93c5fd" stroke-width="1" opacity="0.45"/>
+              <path d="M360 78 L385 54 L398 66 L415 50 L450 78" stroke="#3b82f6" stroke-width="1.2" fill="none" stroke-linejoin="round" opacity="0.35"/>
+              <circle cx="430" cy="54" r="5" fill="#fde68a" opacity="0.45"/>
+              <line x1="355" y1="90" x2="450" y2="90" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+              <line x1="355" y1="96" x2="445" y2="96" stroke="#94a3b8" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+              <line x1="355" y1="102" x2="440" y2="102" stroke="#94a3b8" stroke-width="1" stroke-linecap="round" opacity="0.22"/>
+              <line x1="355" y1="108" x2="448" y2="108" stroke="#94a3b8" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
+              <rect x="355" y="122" width="82" height="18" rx="9" fill="#d1fae5" stroke="#22c55e" stroke-width="1.3" opacity="0.55"/>
+              <circle cx="367" cy="131" r="3.5" fill="#22c55e" opacity="0.5"/>
+              <path d="M365 131 L367 133.5 L370 128.5" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+              <line x1="375" y1="131" x2="428" y2="131" stroke="#22c55e" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+              <rect x="352" y="24" width="120" height="130" rx="6" fill="none" stroke="#e2e8f0" stroke-width="1.2" opacity="0.3" transform="rotate(3,412,89)"/>
+              <path d="M240 130 L242 123 L244 130 L251 132 L244 134 L242 141 L240 134 L233 132 Z" fill="#8b5cf6" opacity="0.2"/>
+              <path d="M155 20 L156.5 15 L158 20 L163 21.5 L158 23 L156.5 28 L155 23 L150 21.5 Z" fill="#22c55e" opacity="0.25"/>
+              <path d="M440 148 L441.5 143 L443 148 L448 149.5 L443 151 L441.5 156 L440 151 L435 149.5 Z" fill="#f59e0b" opacity="0.22"/>
+            </svg>
+          </div>
+          <!-- Text below illustration -->
+          <div style="padding: 0 24px;">
+            <div style="font-family: var(--font-serif); font-size: 15px; font-weight: 700; color: #0a2540; margin-bottom: 4px;">This site is ad-free. Your GPU keeps it that way.</div>
+            <p style="font-size: 12px; line-height: 1.45; color: #3d4551; margin: 0; max-width: none;">A tiny background task helps fund this site instead of ads. No tracking, no personal data. Stops when you close the tab.</p>
+            <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(10,37,64,0.1); font-family: var(--font-mono); font-size: 11px; color: rgba(10,37,64,0.35); letter-spacing: 0.03em;">Powered by warppool.tech</div>
+          </div>
+        </div>
+        <!-- Right panel: icon + buttons -->
+        <div style="width: 240px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: stretch; gap: 10px; padding: 28px; background: #fff;">
+          <div style="display: flex; justify-content: center; margin-bottom: 4px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="44" height="44">
+              <rect width="32" height="32" rx="5" fill="#005ea2"></rect>
+              <g fill="#fff">
+                <rect x="2" y="2" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="9.375" y="2" width="5.875" height="5.875" rx="1" opacity="0.35"></rect>
+                <rect x="16.75" y="2" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="24.125" y="2" width="5.875" height="5.875" rx="1" opacity="0.55"></rect>
+                <rect x="2" y="9.375" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="9.375" y="9.375" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="16.75" y="9.375" width="5.875" height="5.875" rx="1" opacity="0.35"></rect>
+                <rect x="24.125" y="9.375" width="5.875" height="5.875" rx="1" opacity="0.55"></rect>
+                <rect x="2" y="16.75" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="9.375" y="16.75" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="16.75" y="16.75" width="5.875" height="5.875" rx="1" opacity="0.35"></rect>
+                <rect x="24.125" y="16.75" width="5.875" height="5.875" rx="1" opacity="0.55"></rect>
+                <rect x="2" y="24.125" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="9.375" y="24.125" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="16.75" y="24.125" width="5.875" height="5.875" rx="1" opacity="0.95"></rect>
+                <rect x="24.125" y="24.125" width="5.875" height="5.875" rx="1" opacity="0.55"></rect>
+              </g>
+            </svg>
+          </div>
+          <button class="btn btn--primary btn--sm" style="width:100%; padding:14px 20px; font-size:15px; font-weight:700; border-radius:8px;">Allow for this site</button>
+          <button class="btn btn--outline btn--sm" style="width:100%; padding:12px 20px; font-size:14px; font-weight:600; border-radius:8px;">Just this visit</button>
+          <div style="display:flex; align-items:center; justify-content:center; gap:4px; margin-top:4px;">
+            <span style="font-size:12px; color:var(--fg-3); cursor:pointer;">No thanks</span>
+            <span style="color:var(--border-default); font-size:11px;">&middot;</span>
+            <a href="/what-is-warppool" style="font-size:12px; color:var(--color-primary); text-decoration:underline; text-underline-offset:2px;">What is this?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Why this vs ads =============== -->
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">Why switch</div>
+      <h2>Your ad network sells your readers. Warppool borrows their GPUs.</h2>
+      <p>Compute is finite, measurable, and reversible. Attention is none of those. Here's what the switch actually looks like.</p>
+    </div>
+
+    <div class="fit">
+      <div class="fit__col">
+        <div class="fit__head no"><span class="badge">!</span>Ad networks (AdSense, programmatic)</div>
+        <ul>
+          <li><b>You keep $0.30 of every ad dollar.</b><span>Google, Meta, and the SSP/DSP chain take 50&ndash;70%.</span></li>
+          <li><b>Revenue requires surveillance.</b><span>third-party scripts, fingerprinting, cookie syncing, real-time bidding.</span></li>
+          <li><b>Degrades the reading experience.</b><span>layout shift, modal overlays, autoplay video, 2&ndash;5 second load penalty.</span></li>
+          <li><b>Two companies decide who gets paid.</b><span>Google and Meta control &gt;55% of all digital ad spend.</span></li>
+          <li><b>Opaque to everyone.</b><span>readers don't know who tracks them; publishers don't know what they sold.</span></li>
+        </ul>
+      </div>
+      <div class="fit__col">
+        <div class="fit__head ok"><span class="badge">✓</span>Warppool compute tag</div>
+        <ul>
+          <li><b>You keep 70 cents of every dollar.</b><span>~$0.04/GPU-hour, no highway robbery to a platform.</span></li>
+          <li><b>Zero tracking, zero data collection.</b><span>one consent panel, plain English, one click to stop.</span></li>
+          <li><b>Makes your site faster, not slower.</b><span>11 KB async script vs. 500 KB+ of ad-tech JavaScript.</span></li>
+          <li><b>You choose what compute runs.</b><span>research grants, your own jobs, a specific sponsor &mdash; your call.</span></li>
+          <li><b>Fully transparent.</b><span>visitors can audit exactly which kernel is running on their GPU.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Embed snippet =============== -->
+<section class="section" id="embed">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">The switch</div>
+      <h2>Remove your ad tags. Add this one line. Ship.</h2>
+      <p>Drop the Warppool tag into your site footer. Delete the AdSense/programmatic scripts. Set a default GPU budget. Optionally restrict to specific job classes (research-grants only, your own jobs only, a particular sponsor).</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;">
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <span class="demo__lights"><span></span><span></span><span></span></span>
+          <span class="file">your-site.html</span>
+          <button class="copy" data-copy-target="#embed-src">Copy</button>
+        </div>
+<pre id="embed-src"><span class="c">&lt;!-- in your &lt;body&gt;, ideally near the end --&gt;</span>
+<span class="p">&lt;</span><span class="k">script</span>
+  <span class="k">src</span>=<span class="s">"https://warppool.tech/w.js"</span>
+  <span class="k">api-key</span>=<span class="s">"2835ef562fcdfd84eeb061d9c7e9d1ad"</span>
+  <span class="k">data-budget</span>=<span class="s">"3"</span>
+  <span class="k">data-priority</span>=<span class="s">"idle"</span>
+  <span class="k">data-jobs</span>=<span class="s">"research-grants,acme"</span>
+  <span class="k">async</span>
+<span class="p">&gt;&lt;/</span><span class="k">script</span><span class="p">&gt;</span>
+
+<span class="c">&lt;!-- defaults to a consent strip in the corner;
+     swap for inline placement: --&gt;</span>
+<span class="p">&lt;</span><span class="k">div</span> <span class="k">id</span>=<span class="s">"warppool-consent"</span><span class="p">&gt;&lt;/</span><span class="k">div</span><span class="p">&gt;</span>
+</pre>
+      </div>
+
+      <div>
+        <h3 style="font-family: var(--font-serif); font-size: 22px; margin: 0 0 14px;">What each attribute does</h3>
+        <dl style="margin: 0; display: grid; grid-template-columns: 130px 1fr; gap: 12px 18px; font-size: 14px;">
+          <dt style="font-family: var(--font-mono); color: var(--color-primary);">api-key</dt>
+          <dd style="margin: 0; color: var(--fg-2);">Your site's API key in the Warppool dashboard. Credits accrue here.</dd>
+
+          <dt style="font-family: var(--font-mono); color: var(--color-primary);">data-budget</dt>
+          <dd style="margin: 0; color: var(--fg-2);">GPU percentage cap (1–25). Defaults to 3. The worker measures real utilization and backs off.</dd>
+
+          <dt style="font-family: var(--font-mono); color: var(--color-primary);">data-priority</dt>
+          <dd style="margin: 0; color: var(--fg-2);"><code>idle</code> only runs when the visitor isn't actively interacting. <code>active</code> runs continuously. <code>visible-only</code> pauses in background tabs.</dd>
+
+          <dt style="font-family: var(--font-mono); color: var(--color-primary);">data-jobs</dt>
+          <dd style="margin: 0; color: var(--fg-2);">Comma-separated whitelist of job classes. <code>research-grants</code> is the default pool. Add your site's slug to spend earned credits on your own jobs.</dd>
+        </dl>
+        <div style="margin-top: 20px; padding: 16px 18px; background: var(--bg-2); border-left: 4px solid var(--color-success); border-radius: 0 4px 4px 0;">
+          <b style="display:block; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; color:var(--color-green-cool-60v); margin-bottom:4px;">Default behaviour</b>
+          <p style="margin:0; font-size:14px; color:var(--fg-1); max-width: none;">Contributing to the research-grants pool. No data, no tracking, no third parties. The script weighs 11&nbsp;KB gzipped and loads off the critical path.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 28px;">
+      <b>Spending your earned credits? You don't have to write WGSL.</b>
+      <p>Credits your site earns can run your own jobs on the network. Write the kernel as an ordinary annotated Python function and let our open-source <a href="https://pypi.org/project/py2wgsl/"><code>py2wgsl</code></a> package (<code>pip install py2wgsl</code>) compile it to a WGSL compute shader — bindings and all. <a href="/run-jobs">See how jobs work &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Visitor experience (consent + controls) =============== -->
+<section class="section section--tint" id="consent">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">Visitor experience</div>
+      <h2>What your readers actually see and feel.</h2>
+      <p>Three moments: the ask, the running state, the stop. The default consent strip is dismissible, doesn't block content, and never reappears once a visitor decides.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card" style="padding: 28px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px;">Moment 01 · First visit</div>
+        <h3 style="font-family: var(--font-serif); font-size: 19px; margin: 0 0 10px;">The ask</h3>
+        <p style="margin: 0 0 18px; color: var(--fg-2); font-size: 14px;">Small panel in the lower-right. Plain English. Three buttons.</p>
+        <div style="background: var(--bg-1); border: 1px solid var(--border-default); border-radius: 4px; padding: 14px; font-size: 13px;">
+          <div style="font-weight: 700; font-family: var(--font-serif); margin-bottom: 6px;">Share a sliver of your GPU?</div>
+          <div style="color: var(--fg-2); font-size: 12px; margin-bottom: 12px; line-height: 1.5;">This site uses ~3% of your GPU to help run a research weather model. Stops the moment you close the tab.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button class="btn btn--primary btn--sm" style="font-size: 12px;">Allow</button>
+            <button class="btn btn--outline btn--sm" style="font-size: 12px;">No</button>
+            <a href="#" style="font-size: 11px; align-self: center; margin-left: auto;">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" style="padding: 28px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px;">Moment 02 · While reading</div>
+        <h3 style="font-family: var(--font-serif); font-size: 19px; margin: 0 0 10px;">The running state</h3>
+        <p style="margin: 0 0 18px; color: var(--fg-2); font-size: 14px;">A 24px badge in the footer. Live task counter. Click for full transparency.</p>
+        <div style="background: #11181d; color: #e6eef5; border-radius: 4px; padding: 14px; font-family: var(--font-mono); font-size: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#70e17b; box-shadow: 0 0 0 0 rgba(112,225,123,0.4); animation: pulse 2s infinite;"></span>
+            <span style="color:#fff; font-family: var(--font-sans); font-weight: 600;">Contributing</span>
+            <span style="margin-left: auto; color:#71b8ff;">pause</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; color: #a9c5d8;">
+            <div>tasks done <b style="color:#fff;">14</b></div>
+            <div>GPU load <b style="color:#fff;">2.8%</b></div>
+            <div>elapsed <b style="color:#fff;">4m 12s</b></div>
+            <div>job <b style="color:#71b8ff;">weather-l63</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" style="padding: 28px;">
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px;">Moment 03 · Leaving</div>
+        <h3 style="font-family: var(--font-serif); font-size: 19px; margin: 0 0 10px;">The stop</h3>
+        <p style="margin: 0 0 18px; color: var(--fg-2); font-size: 14px;">Close the tab and the worker detaches in <em>under one frame</em>. No background process. No persistent state. The Warppool scheduler reassigns any in-flight task to another node.</p>
+        <div style="background: var(--bg-2); border: 1px solid var(--border-default); border-radius: 4px; padding: 14px; font-family: var(--font-mono); font-size: 12px; color: var(--fg-2);">
+          <div style="display:flex; gap:10px; align-items:center; margin-bottom: 8px;"><span style="color:var(--color-base);">⏻</span><span>worker:disconnected</span></div>
+          <div>tasks_completed = 14</div>
+          <div>credits_earned = 0.011 task-h</div>
+          <div style="color: var(--color-success); margin-top: 4px;">all clean. thanks.</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Sandbox callout =============== -->
+<section class="section">
+  <div class="container">
+    <div class="callout" style="margin: 0 auto; max-width: 42rem;"><b>How the sandbox protects visitors.</b> Workers run inside your browser's sandbox — no filesystem, no network, no persistent state.</div>
+  </div>
+</section>
+
+
+<!-- ============== Final CTA =============== -->
+<section class="section">
+  <div class="container split">
+    <div>
+      <div class="kicker">Make the switch</div>
+      <h2 style="font-family: var(--font-serif); font-size: 32px; line-height: 1.15; margin: 14px 0 14px; max-width: 22ch;">Drop ads today. Start earning from compute.</h2>
+      <p style="font-size: 17px; color: var(--fg-2); max-width: 36rem;">Free for any site under 1M monthly visitors. Above that, talk to us &mdash; we'll set up dedicated scheduler capacity in a region close to your readers.</p>
+      <div style="display:flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+        <a class="btn btn--primary btn--lg" href="#embed">Get the embed tag</a>
+        <a class="btn btn--outline btn--lg" href="/docs">See it in action</a>
+      </div>
+    </div>
+    <div style="background: var(--bg-2); padding: 28px; border-radius: 4px;">
+      <h4 style="font-family: var(--font-sans); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-2); margin: 0 0 14px;">Sites running the worker tag</h4>
+      <div style="display:flex; flex-direction: column; gap: 10px; font-size: 14px;">
+        <div style="display:flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-default);"><span><b>news.commons.org</b></span><span style="font-family: var(--font-mono); color: var(--fg-3);">3.4 GPU-days / wk</span></div>
+        <div style="display:flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-default);"><span><b>opensci-quarterly</b></span><span style="font-family: var(--font-mono); color: var(--fg-3);">2.1 GPU-days / wk</span></div>
+        <div style="display:flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-default);"><span><b>archive.everywhere</b></span><span style="font-family: var(--font-mono); color: var(--fg-3);">1.9 GPU-days / wk</span></div>
+        <div style="display:flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-default);"><span><b>plain-text-magazine</b></span><span style="font-family: var(--font-mono); color: var(--fg-3);">1.2 GPU-days / wk</span></div>
+        <div style="display:flex; justify-content: space-between; padding: 8px 0;"><span style="color:var(--fg-3);">+ 214 more</span><a href="#" style="font-size: 13px;">See all →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Tree line — subtle horizon above the footer =============== -->
+<div class="treeline" aria-hidden="true">
+  <svg viewBox="0 0 1200 130" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <defs>
+      <g id="ts">
+        <polygon points="-10,126 10,126 0,106"/>
+        <polygon points="-8,114 8,114 0,96"/>
+        <rect x="-2" y="126" width="4" height="4"/>
+      </g>
+      <g id="tm">
+        <polygon points="-16,126 16,126 0,100"/>
+        <polygon points="-12,108 12,108 0,84"/>
+        <polygon points="-9,92 9,92 0,76"/>
+        <rect x="-2.5" y="126" width="5" height="4"/>
+      </g>
+      <g id="tl">
+        <polygon points="-20,126 20,126 0,92"/>
+        <polygon points="-16,102 16,102 0,74"/>
+        <polygon points="-12,84 12,84 0,60"/>
+        <polygon points="-9,68 9,68 0,48"/>
+        <rect x="-2.5" y="126" width="5" height="4"/>
+      </g>
+      <g id="bs">
+        <circle cx="0" cy="112" r="9"/>
+        <circle cx="-5" cy="106" r="7"/>
+        <circle cx="5" cy="106" r="7"/>
+        <circle cx="0" cy="100" r="7"/>
+        <rect x="-2" y="118" width="4" height="12"/>
+      </g>
+      <g id="bm">
+        <circle cx="0" cy="106" r="12"/>
+        <circle cx="-9" cy="100" r="9"/>
+        <circle cx="9" cy="100" r="9"/>
+        <circle cx="-4" cy="92" r="9"/>
+        <circle cx="5" cy="90" r="9"/>
+        <rect x="-2" y="114" width="4" height="16"/>
+      </g>
+      <g id="bl">
+        <circle cx="0" cy="98" r="16"/>
+        <circle cx="-12" cy="94" r="10"/>
+        <circle cx="12" cy="94" r="10"/>
+        <circle cx="-5" cy="82" r="10"/>
+        <circle cx="7" cy="80" r="10"/>
+        <rect x="-2.5" y="110" width="5" height="20"/>
+      </g>
+    </defs>
+    <rect x="0" y="128" width="1200" height="2" fill="#1b1b1b"/>
+    <line x1="0" y1="129" x2="1200" y2="129" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <use href="#ts" x="34"/>
+    <use href="#tm" x="82"/>
+    <use href="#bm" x="120"/>
+    <use href="#ts" x="160"/>
+    <use href="#tl" x="207"/>
+    <use href="#ts" x="250"/>
+    <use href="#bl" x="285"/>
+    <use href="#tm" x="332"/>
+    <use href="#ts" x="378"/>
+    <use href="#tl" x="422"/>
+    <use href="#bs" x="460"/>
+    <use href="#tm" x="500"/>
+    <use href="#tl" x="552"/>
+    <use href="#ts" x="598"/>
+    <use href="#bm" x="632"/>
+    <use href="#tm" x="678"/>
+    <use href="#ts" x="724"/>
+    <use href="#tl" x="774"/>
+    <use href="#ts" x="820"/>
+    <use href="#bl" x="855"/>
+    <use href="#tm" x="900"/>
+    <use href="#ts" x="943"/>
+    <use href="#tl" x="988"/>
+    <use href="#bs" x="1025"/>
+    <use href="#tm" x="1064"/>
+    <use href="#tl" x="1112"/>
+    <use href="#ts" x="1158"/>
+    <use href="#ts" x="1192"/>
+  </svg>
+</div>
+
+<!-- ============== Footer =============== -->
+<footer class="identifier">
+  <div class="container">
+    <div class="identifier__top">
+      <span class="identifier__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <div class="identifier__role">
+        <b>Warppool</b>
+        The monetization layer for the ad-free web. Replace ad networks with compute &mdash; fund sites with idle GPUs instead of surveillance.
+      </div>
+    </div>
+
+    <div class="identifier__cols">
+      <div class="identifier__about">
+        Warppool is the monetization layer for the ad-free web. Publishers replace ad networks with one script tag &mdash; visitors who opt in lend idle GPU cycles to power scientific research and computation. No tracking, no data brokers, no attention tax. <b>Researchers run free. Publishers earn per GPU-millisecond. The web gets funded by useful work instead of surveillance.</b>
+      </div>
+      <div class="identifier__col">
+        <h4>Network</h4>
+        <ul>
+          <li><a href="/run-jobs">Run jobs</a></li>
+          <li><a href="/publishers">For Publishers</a></li>
+          <li><a href="/demos">Demos</a></li>
+          <li><a href="https://warppool.statuspage.io/">Status &amp; uptime</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="/docs">Running jobs</a></li>
+          <li><a href="/docs#kernel">Write a kernel</a></li>
+          <li><a href="/docs#submit">Submit a job</a></li>
+          <li><a href="/docs#mcp">MCP for AI agents</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://linkedin.com/company/warppool/jobs">Careers</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="identifier__meta">
+      <statuspage-widget src="https://warppool.statuspage.io"></statuspage-widget>
+      <span>© 2026 Warppool &middot; v0.3.1</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/warppool.js"></script>
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+  const nav = document.querySelector('.site-nav');
+  const open = nav.classList.toggle('is-open');
+  this.classList.toggle('is-open', open);
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.js"></script>
+<script src="https://unpkg.com/@statuspage/status-widget/dist/index.js"></script>
+</body>
+</html>

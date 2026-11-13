@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<!-- Privacy policy (/privacy). Static legal content. -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy — Warppool</title>
+<meta name="description" content="Warppool's privacy policy. No personal data collected from visitors, no cookies, no trackers. Only aggregate compute metrics are transmitted." />
+<link rel="stylesheet" href="/assets/warppool.css" />
+<link rel="icon" type="image/png" href="/assets/warppool-icon.png" />
+<link rel="apple-touch-icon" href="/assets/warppool-icon.png" />
+</head>
+<body>
+
+<!-- ============== Header =============== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="brand__name">Warppool</span>
+      <span class="brand__divider"></span>
+      <span class="brand__role"><b>Ad-free web</b>monetize with compute, not surveillance</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Overview</a>
+      <a href="/publishers">For Publishers</a>
+      <a href="/run-jobs">Run Jobs</a>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/docs">Docs</a>
+      <span class="header-live" title="Unique workers that contributed in the last 24 hours">
+        <span class="header-live__dot"></span>
+        <span data-live="workers">&mdash;</span>&nbsp;workers
+      </span>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/sign-in" class="site-nav__signin">Sign in</a>
+      <a href="/sign-up" class="site-nav__signup">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== Hero =============== -->
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow-divider">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="lead" style="max-width: 42rem;">Last updated: June 14, 2026. Warppool is built on the principle that compute can replace surveillance as a business model. This policy reflects that.</p>
+  </div>
+</section>
+
+<!-- ============== Content =============== -->
+<section class="section">
+  <div class="container container-narrow">
+
+    <h2 style="font-family: var(--font-serif); font-size: 24px; margin: 0 0 14px;">What we collect from site visitors (worker contributors)</h2>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 14px;">When you contribute GPU compute through a site running the Warppool widget, the following data is transmitted to the coordinator:</p>
+    <ul style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 14px; padding-left: 24px;">
+      <li><b style="color: var(--fg-1);">GPU capabilities</b> &mdash; vendor, architecture, max buffer size. Used to assign appropriately sized chunks.</li>
+      <li><b style="color: var(--fg-1);">System info</b> &mdash; CPU core count, device memory, platform, screen dimensions, battery level. Used for calibration.</li>
+      <li><b style="color: var(--fg-1);">Chunk results</b> &mdash; the numeric output of each compute chunk (e.g., hit counts). This is the work product.</li>
+      <li><b style="color: var(--fg-1);">IP address</b> &mdash; captured server-side from the WebSocket connection for rate limiting and abuse prevention. Not stored long-term.</li>
+    </ul>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 32px;">We do <b style="color: var(--fg-1);">not</b> collect: names, email addresses, browsing history, cookies, fingerprints, or any form of personal identifier from widget visitors. No data leaves the browser except chunk results and the system metadata listed above.</p>
+
+    <h2 style="font-family: var(--font-serif); font-size: 24px; margin: 0 0 14px;">What we collect from account holders</h2>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 14px;">If you create a Warppool account (to submit jobs or manage API keys), we collect:</p>
+    <ul style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 14px; padding-left: 24px;">
+      <li><b style="color: var(--fg-1);">Email address</b> &mdash; for authentication (magic link sign-in) and account communication.</li>
+      <li><b style="color: var(--fg-1);">Job data</b> &mdash; kernels you submit, chunk manifests, and results.</li>
+      <li><b style="color: var(--fg-1);">Billing information</b> &mdash; if you use paid compute, payment details are processed by Stripe. We do not store card numbers.</li>
+    </ul>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 32px;">Account data is stored for as long as your account is active. You can request deletion at any time by contacting us.</p>
+
+    <h2 style="font-family: var(--font-serif); font-size: 24px; margin: 0 0 14px;">Cookies and tracking</h2>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 32px;">The Warppool widget uses <b style="color: var(--fg-1);">no cookies and no third-party trackers</b>. The marketing site (warppool.tech) uses a session cookie for authentication if you sign in. We do not use analytics services, ad networks, or tracking pixels.</p>
+
+    <h2 style="font-family: var(--font-serif); font-size: 24px; margin: 0 0 14px;">Data sharing</h2>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 32px;">We do not sell, rent, or share personal data with third parties. Aggregate, non-identifying network statistics (worker counts, throughput, job completion rates) may be published publicly.</p>
+
+    <h2 style="font-family: var(--font-serif); font-size: 24px; margin: 0 0 14px;">Security</h2>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 32px;">All communication between workers and the coordinator uses TLS (HTTPS/WSS). Compute kernels run inside the browser's own GPU sandbox with no access to the filesystem, network, or host memory. The coordinator is deployed on Google Cloud Run with managed TLS certificates.</p>
+
+    <h2 style="font-family: var(--font-serif); font-size: 24px; margin: 0 0 14px;">Children's privacy</h2>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0 0 32px;">Warppool is not directed at children under 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, contact <a href="mailto:privacy@warppool.tech" style="color: var(--color-primary);">privacy@warppool.tech</a> and we will delete it promptly.</p>
+
+    <h2 style="font-family: var(--font-serif); font-size: 24px; margin: 0 0 14px;">Contact</h2>
+    <p style="font-size: 16px; color: var(--fg-2); line-height: 1.65; margin: 0;">For privacy questions, email <b style="color: var(--fg-1);">
+      <a href="mailto:privacy@warppool.tech">
+        privacy@warppool.tech
+      </a></b>.</p>
+
+  </div>
+</section>
+
+<!-- ============== Tree line =============== -->
+<div class="treeline" aria-hidden="true">
+  <svg viewBox="0 0 1200 130" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <defs>
+      <g id="ts"><polygon points="-10,126 10,126 0,106"/><polygon points="-8,114 8,114 0,96"/><rect x="-2" y="126" width="4" height="4"/></g>
+      <g id="tm"><polygon points="-16,126 16,126 0,100"/><polygon points="-12,108 12,108 0,84"/><polygon points="-9,92 9,92 0,76"/><rect x="-2.5" y="126" width="5" height="4"/></g>
+      <g id="tl"><polygon points="-20,126 20,126 0,92"/><polygon points="-16,102 16,102 0,74"/><polygon points="-12,84 12,84 0,60"/><polygon points="-9,68 9,68 0,48"/><rect x="-2.5" y="126" width="5" height="4"/></g>
+      <g id="bs"><circle cx="0" cy="112" r="9"/><circle cx="-5" cy="106" r="7"/><circle cx="5" cy="106" r="7"/><circle cx="0" cy="100" r="7"/><rect x="-2" y="118" width="4" height="12"/></g>
+      <g id="bm"><circle cx="0" cy="106" r="12"/><circle cx="-9" cy="100" r="9"/><circle cx="9" cy="100" r="9"/><circle cx="-4" cy="92" r="9"/><circle cx="5" cy="90" r="9"/><rect x="-2" y="114" width="4" height="16"/></g>
+      <g id="bl"><circle cx="0" cy="98" r="16"/><circle cx="-12" cy="94" r="10"/><circle cx="12" cy="94" r="10"/><circle cx="-5" cy="82" r="10"/><circle cx="7" cy="80" r="10"/><rect x="-2.5" y="110" width="5" height="20"/></g>
+    </defs>
+    <rect x="0" y="128" width="1200" height="2" fill="#1b1b1b"/>
+    <line x1="0" y1="129" x2="1200" y2="129" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <use href="#ts" x="34"/><use href="#tm" x="82"/><use href="#bm" x="120"/><use href="#ts" x="160"/><use href="#tl" x="207"/><use href="#ts" x="250"/><use href="#bl" x="285"/><use href="#tm" x="332"/><use href="#ts" x="378"/><use href="#tl" x="422"/><use href="#bs" x="460"/><use href="#tm" x="500"/><use href="#tl" x="552"/><use href="#ts" x="598"/><use href="#bm" x="632"/><use href="#tm" x="678"/><use href="#ts" x="724"/><use href="#tl" x="774"/><use href="#ts" x="820"/><use href="#bl" x="855"/><use href="#tm" x="900"/><use href="#ts" x="943"/><use href="#tl" x="988"/><use href="#bs" x="1025"/><use href="#tm" x="1064"/><use href="#tl" x="1112"/><use href="#ts" x="1158"/><use href="#ts" x="1192"/>
+  </svg>
+</div>
+
+<!-- ============== Footer =============== -->
+<footer class="identifier">
+  <div class="container">
+    <div class="identifier__top">
+      <span class="identifier__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <div class="identifier__role">
+        <b>Warppool</b>
+        The monetization layer for the ad-free web. Replace ad networks with compute &mdash; fund sites with idle GPUs instead of surveillance.
+      </div>
+    </div>
+
+    <div class="identifier__cols">
+      <div class="identifier__about">
+        Warppool is the monetization layer for the ad-free web. Publishers replace ad networks with one script tag &mdash; visitors who opt in lend idle GPU cycles to power scientific research and computation. No tracking, no data brokers, no attention tax. <b>Researchers run free. Publishers earn per GPU-millisecond. The web gets funded by useful work instead of surveillance.</b>
+      </div>
+      <div class="identifier__col">
+        <h4>Network</h4>
+        <ul>
+          <li><a href="/run-jobs">Run jobs</a></li>
+          <li><a href="/publishers">For Publishers</a></li>
+          <li><a href="/demos">Demos</a></li>
+          <li><a href="https://warppool.statuspage.io/">Status &amp; uptime</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="/docs">Running jobs</a></li>
+          <li><a href="/docs#kernel">Write a kernel</a></li>
+          <li><a href="/docs#submit">Submit a job</a></li>
+          <li><a href="/docs#mcp">MCP for AI agents</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://linkedin.com/company/warppool/jobs">Careers</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="identifier__meta">
+      <statuspage-widget src="https://warppool.statuspage.io"></statuspage-widget>
+      <span>&copy; 2026 Warppool &middot; v0.3.1</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/warppool.js"></script>
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+  const nav = document.querySelector('.site-nav');
+  const open = nav.classList.toggle('is-open');
+  this.classList.toggle('is-open', open);
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.js"></script>
+<script src="https://unpkg.com/@statuspage/status-widget/dist/index.js"></script>
+</body>
+</html>

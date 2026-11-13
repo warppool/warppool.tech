@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Warppool mark, BIMI profile (SVG Tiny P/S).
+
+  This is a derivative of warppool-icon.svg, NOT a replacement for it. BIMI
+  constrains the file far more than the web does, so the two differ on purpose:
+
+    * version="1.2" baseProfile="tiny-ps" and a <title> as the first child are
+      mandatory; a file missing any of them is rejected outright.
+    * role/aria-label are dropped: they are ARIA/HTML attributes with no place
+      in SVG Tiny 1.2.
+    * width/height are dropped, viewBox kept, so the mark scales to whatever
+      box a mail client gives it instead of pinning itself to 32px.
+    * The background is a FULL-BLEED SQUARE (no rx). The web icon's rounded
+      corners are transparent, and mail clients commonly crop BIMI logos to a
+      circle over their own background, where transparent corners render as
+      artifacts. Under a circular crop the rounding was never visible
+      anyway, so nothing is lost.
+    * Tile opacity is baked into solid fills. SVG Tiny 1.2 does support the
+      opacity property, but every tile now sits on solid #005ea2, so the
+      blend is exact and the result is pixel-identical with one less feature
+      for a strict validator to object to.
+        0.95 white on #005ea2 -> #F2F7FA
+        0.55 white on #005ea2 -> #8CB7D5
+        0.35 white on #005ea2 -> #5996C3
+
+  Forbidden here and absent by construction: <script>, <a>, <image>,
+  <foreignObject>, animation elements, external references, embedded raster.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 32 32">
+  <title>Warppool</title>
+  <rect width="32" height="32" fill="#005ea2"/>
+  <g>
+    <rect x="2.000" y="2.000" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="9.375" y="2.000" width="5.875" height="5.875" rx="1" fill="#5996C3"/>
+    <rect x="16.750" y="2.000" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="24.125" y="2.000" width="5.875" height="5.875" rx="1" fill="#8CB7D5"/>
+    <rect x="2.000" y="9.375" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="9.375" y="9.375" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="16.750" y="9.375" width="5.875" height="5.875" rx="1" fill="#5996C3"/>
+    <rect x="24.125" y="9.375" width="5.875" height="5.875" rx="1" fill="#8CB7D5"/>
+    <rect x="2.000" y="16.750" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="9.375" y="16.750" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="16.750" y="16.750" width="5.875" height="5.875" rx="1" fill="#5996C3"/>
+    <rect x="24.125" y="16.750" width="5.875" height="5.875" rx="1" fill="#8CB7D5"/>
+    <rect x="2.000" y="24.125" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="9.375" y="24.125" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="16.750" y="24.125" width="5.875" height="5.875" rx="1" fill="#F2F7FA"/>
+    <rect x="24.125" y="24.125" width="5.875" height="5.875" rx="1" fill="#8CB7D5"/>
+  </g>
+</svg>

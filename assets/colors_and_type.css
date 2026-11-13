@@ -1,0 +1,279 @@
+/* =========================================================================
+   Williams-Tracy Design System — Colors & Type
+   Built on the U.S. Web Design System (USWDS) v3 token model.
+   Reference: https://designsystem.digital.gov/design-tokens/
+   ========================================================================= */
+
+/* ----- Webfonts (Google Fonts CDN substitution) -----
+   USWDS pairs Source Sans Pro (UI/sans) with Merriweather (serif/headings).
+   The Williams-Tracy wordmark logo is set in a classical serif similar to
+   Merriweather/Times — Merriweather is the closest open-source match and is
+   the canonical USWDS serif.
+
+   FLAG: We're loading webfonts from Google Fonts (CDN) rather than self-hosting.
+   If you want truly offline-capable WOFF2 files, replace this @import with
+   self-hosted @font-face declarations and drop the files in /fonts/.
+*/
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&family=Roboto+Mono:wght@400;500;700&display=swap");
+
+:root {
+  /* =====================================================================
+     COLOR — USWDS system color tokens (literal hex from the source SCSS)
+     ===================================================================== */
+
+  /* Blue (default theme primary family) */
+  --color-blue-5:  #eff6fb;
+  --color-blue-10: #d9e8f6;
+  --color-blue-20: #aacdec;
+  --color-blue-30: #73b3e7;
+  --color-blue-40: #4f97d1;
+  --color-blue-50: #2378c3;
+  --color-blue-60: #2c608a;
+  --color-blue-70: #274863;
+  --color-blue-80: #1f303e;
+  --color-blue-90: #11181d;
+  --color-blue-5v:  #e8f5ff;
+  --color-blue-10v: #cfe8ff;
+  --color-blue-20v: #a1d3ff;
+  --color-blue-30v: #58b4ff;
+  --color-blue-40v: #2491ff;
+  --color-blue-50v: #0076d6;
+  --color-blue-60v: #005ea2; /* USWDS primary */
+  --color-blue-70v: #0b4778;
+  --color-blue-80v: #112f4e;
+
+  /* Red (default theme secondary family) */
+  --color-red-5:  #f9eeee;
+  --color-red-10: #f8e1de;
+  --color-red-20: #f7bbb1;
+  --color-red-30: #f2938c;
+  --color-red-40: #e9695f;
+  --color-red-50: #d83933; /* USWDS secondary */
+  --color-red-60: #a23737;
+  --color-red-70: #6f3331;
+  --color-red-80: #3e2927;
+  --color-red-90: #1b1616;
+  --color-red-warm-50v: #e52207; /* error */
+  --color-red-warm-60v: #b50909; /* emergency */
+  --color-red-warm-70:  #8b0a03;
+
+  /* Gray-cool (default neutral / base family) */
+  --color-base-lightest: #edeff0; /* gray-5 */
+  --color-base-lighter:  #dfe1e2; /* gray-cool-10 */
+  --color-base-light:    #a9aeb1; /* gray-cool-30 */
+  --color-base:          #71767a; /* gray-cool-50 */
+  --color-base-dark:     #565c65; /* gray-cool-60 */
+  --color-base-darker:   #3d4551; /* gray-cool-70 */
+  --color-base-darkest:  #1b1b1b; /* gray-90 — "ink" */
+  --color-ink:           #1b1b1b;
+
+  /* Gold / yellow (warning) */
+  --color-gold-20v:  #ffbe2e; /* warning */
+  --color-gold-30v:  #e5a000;
+  --color-gold-50v:  #936f38;
+
+  /* Green-cool (success) */
+  --color-green-cool-5:   #ecf3ec;
+  --color-green-cool-20v: #70e17b;
+  --color-green-cool-40v: #00a91c; /* success */
+  --color-green-cool-50v: #008817;
+  --color-green-cool-60v: #216e1f;
+
+  /* Cyan (info / accent-cool) */
+  --color-cyan-5:   #e7f6f8;
+  --color-cyan-20:  #99deea;
+  --color-cyan-30v: #00bde3; /* info & accent-cool */
+  --color-cyan-40v: #009ec1;
+
+  /* Orange (accent-warm) */
+  --color-orange-warm: #fa9441;
+
+  /* Pure */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* =====================================================================
+     SEMANTIC COLOR ASSIGNMENTS (the names you should reach for in components)
+     ===================================================================== */
+
+  /* Brand */
+  --color-primary:         var(--color-blue-60v);
+  --color-primary-lighter: var(--color-blue-10);
+  --color-primary-light:   var(--color-blue-30);
+  --color-primary-vivid:   var(--color-blue-50v);
+  --color-primary-dark:    #2e4a7d;  /* blue-warm-70v */
+  --color-primary-darker:  #162e51;  /* blue-warm-80v */
+
+  --color-secondary:       var(--color-red-50);
+  --color-secondary-dark:  #b50909;
+
+  /* Text & surface */
+  --fg-1: var(--color-ink);          /* primary text */
+  --fg-2: var(--color-base-darker);  /* secondary text */
+  --fg-3: var(--color-base);         /* muted/meta */
+  --fg-invert: var(--color-white);
+
+  --bg-1: var(--color-white);
+  --bg-2: #f0f0f0;                   /* gray-5 — page sections */
+  --bg-3: var(--color-base-lightest);
+  --bg-dark: var(--color-base-darkest);     /* footer/identifier */
+  --bg-darker: #1b1b1b;
+
+  /* Borders */
+  --border-default:  var(--color-base-lighter);
+  --border-strong:   var(--color-base-light);
+  --border-focus:    #2491ff;        /* blue-40v — USWDS focus ring */
+
+  /* Links */
+  --link:         var(--color-primary);
+  --link-hover:   var(--color-primary-dark);
+  --link-active:  var(--color-primary-darker);
+  --link-visited: #54278f;            /* violet-70v */
+
+  /* State colors */
+  --color-error:    var(--color-red-warm-50v);
+  --color-warning:  var(--color-gold-20v);
+  --color-success:  var(--color-green-cool-40v);
+  --color-info:     var(--color-cyan-30v);
+  --color-emergency: var(--color-red-warm-60v);
+
+  /* Banner (the official-website strip) */
+  --banner-bg: #f0f0f0;
+  --banner-fg: var(--color-ink);
+
+  /* =====================================================================
+     TYPE — USWDS-style families
+     ===================================================================== */
+  --font-sans:  "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Merriweather", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono:  "Roboto Mono", "Courier New", Courier, monospace;
+
+  /* USWDS type scale (sans/serif). Names follow USWDS density tokens. */
+  --font-size-3xs: 0.75rem;   /* 12px */
+  --font-size-2xs: 0.8125rem; /* 13px */
+  --font-size-xs:  0.875rem;  /* 14px */
+  --font-size-sm:  0.93rem;   /* 15px */
+  --font-size-md:  1rem;      /* 16px */
+  --font-size-lg:  1.22rem;   /* 19.5px */
+  --font-size-xl:  1.46rem;   /* 23.4px */
+  --font-size-2xl: 1.95rem;   /* 31.2px */
+  --font-size-3xl: 2.44rem;   /* 39px */
+
+  --line-1: 1;
+  --line-2: 1.15;             /* heading line-height */
+  --line-3: 1.35;
+  --line-4: 1.5;              /* prose/body */
+  --line-5: 1.62;
+  --line-6: 1.75;
+
+  --weight-light:    300;
+  --weight-normal:   400;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-heavy:    900;
+
+  --tracking-tight:  -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.05em;
+
+  /* =====================================================================
+     SPACING / RADIUS / SHADOW (USWDS units: 1 unit = 8px)
+     ===================================================================== */
+  --space-05: 4px;
+  --space-1:  8px;
+  --space-105: 12px;
+  --space-2:  16px;
+  --space-205: 20px;
+  --space-3:  24px;
+  --space-4:  32px;
+  --space-5:  40px;
+  --space-6:  48px;
+  --space-7:  56px;
+  --space-8:  64px;
+  --space-9:  72px;
+  --space-10: 80px;
+  --space-15: 120px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-pill: 99rem;
+
+  /* USWDS-style shadows (subtle; the system is largely flat) */
+  --shadow-1: 0 1px 4px 0 rgba(0,0,0,0.1);
+  --shadow-2: 0 4px 8px 0 rgba(0,0,0,0.1);
+  --shadow-3: 0 8px 16px 0 rgba(0,0,0,0.1);
+  --shadow-4: 0 12px 24px 0 rgba(0,0,0,0.1);
+  --shadow-focus: 0 0 0 0.25rem rgba(36,145,255,0.5);
+
+  /* Layout */
+  --container-narrow: 36rem;   /* prose width */
+  --container-default: 56rem;
+  --container-wide: 72rem;
+  --container-xl: 87.5rem;
+}
+
+/* =========================================================================
+   ELEMENT DEFAULTS — semantic typography (USWDS sets a sans body with serif
+   display option; we follow the "serif headings, sans body" convention you
+   see across many USWDS sites; flip the headings to var(--font-sans) for the
+   sans-display look used on designsystem.digital.gov itself).
+   ========================================================================= */
+
+html { font-size: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  line-height: var(--line-5);
+  color: var(--fg-1);
+  background: var(--bg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-2);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-2) 0;
+}
+
+h1 { font-size: var(--font-size-3xl); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--font-size-2xl); }
+h3 { font-size: var(--font-size-xl); }
+h4 { font-size: var(--font-size-lg); }
+h5 { font-size: var(--font-size-md); text-transform: none; }
+h6 { font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--fg-2); }
+
+p {
+  margin: 0 0 var(--space-2) 0;
+  max-width: var(--container-narrow);
+  line-height: var(--line-5);
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+a:hover  { color: var(--link-hover);  text-decoration-thickness: 2px; }
+a:active { color: var(--link-active); }
+a:visited { color: var(--link-visited); }
+a:focus-visible {
+  outline: 0.25rem solid var(--border-focus);
+  outline-offset: 0;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.94em;
+}
+code { background: var(--bg-3); padding: 0.1em 0.35em; border-radius: var(--radius-sm); }
+pre  { background: var(--bg-3); padding: var(--space-2); border-radius: var(--radius-md); overflow-x: auto; }
+
+hr { border: 0; border-top: 1px solid var(--border-default); margin: var(--space-4) 0; }
+
+::selection { background: var(--color-blue-20v); color: var(--color-ink); }

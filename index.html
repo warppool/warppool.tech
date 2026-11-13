@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<!-- Marketing landing page (served at "/"). The public front door of the site. -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Warppool — The monetization layer for the ad-free web</title>
+<meta name="description" content="Replace ad networks with compute. Publishers embed one script tag — visitors who opt in lend idle GPU cycles to fund the site. No tracking, no data brokers, no attention tax. Researchers get free distributed GPU power." />
+<link rel="icon" type="image/png" href="/assets/warppool-icon.png" />
+<link rel="apple-touch-icon" href="/assets/warppool-icon.png" />
+<link rel="stylesheet" href="/assets/warppool.css" />
+<style>
+/* ---------- Hero: copy over a full-bleed forest ---------- */
+.hero--forest { padding-bottom: 0; }
+.forest-hero__copy { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 64px; align-items: end; padding-bottom: 8px; }
+.hero--forest h1 { font-size: 64px; line-height: 1.08; letter-spacing: -0.025em; font-weight: 900; max-width: 14ch; margin: 0; }
+.hero--forest .lead { font-size: 19px; margin-bottom: 24px; }
+
+/* The illustration's viewBox is 1440 x 600 with the ground line at y=230,
+   i.e. 38.333% down. Everything positioned in % below is a point in that
+   viewBox, so it stays pinned to the drawing at any width. Past the stage's
+   max-width, the figure's own background continues sky, ground line and
+   soil out to the window edges. */
+.forest {
+  --ground: 38.333%;
+  position: relative; z-index: 1; margin: 0;
+  background: linear-gradient(to bottom,
+    var(--bg-1) calc(var(--ground) - 1px), var(--fg-1) calc(var(--ground) - 1px),
+    var(--fg-1) calc(var(--ground) + 1px), var(--bg-2) calc(var(--ground) + 1px));
+}
+.forest__stage { position: relative; max-width: 1600px; margin: 0 auto; overflow: hidden; }
+.forest__canvas { position: relative; }
+.forest__canvas img { display: block; width: 100%; height: auto; }
+
+.forest__stamp {
+  position: absolute; left: 40.4%; top: 2.3%; transform: rotate(-6deg);
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 8px 14px; background: var(--bg-1);
+  border: 3px solid var(--color-green-cool-60v); border-radius: 6px;
+  font-family: var(--font-mono); color: var(--color-green-cool-60v); text-transform: uppercase;
+}
+.forest__stamp b { font-size: clamp(13px, 1.3vw, 20px); letter-spacing: 0.12em; }
+.forest__stamp span { font-size: clamp(9px, 0.75vw, 11px); letter-spacing: 0.14em; }
+
+/* The visitor's laptop: dashed and empty until they join, solid once
+   they have. */
+.forest__you {
+  position: absolute; left: 50.69%; top: 66.67%; transform: translate(-50%, -50%);
+  width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--bg-1); border: 1.5px dashed var(--color-primary); color: var(--color-primary);
+}
+.forest__you svg { fill: none; stroke: currentColor; stroke-width: 1.6; }
+.forest[data-state="starting"] .forest__you { border-style: solid; }
+.forest[data-state="running"] .forest__you { background: var(--color-primary); border: 0; color: var(--fg-invert); animation: forest-pulse 2.4s ease-out infinite; }
+.forest[data-state="running"] .forest__you svg { fill: currentColor; stroke: none; }
+.forest[data-state="unsupported"] .forest__you,
+.forest[data-state="error"] .forest__you { border-color: var(--color-base-light); color: var(--color-base-light); }
+@keyframes forest-pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 40%, transparent); }
+  70%  { box-shadow: 0 0 0 14px color-mix(in srgb, var(--color-primary) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .forest[data-state="running"] .forest__you { animation: none; } }
+
+.forest__join {
+  position: absolute; left: 53.47%; top: 62.33%; width: 270px;
+  display: flex; flex-direction: column; gap: 4px; padding: 12px 16px;
+  background: var(--bg-1); border: 1px solid var(--fg-1); border-radius: var(--radius-md);
+}
+.forest__join-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); }
+.forest__join-btn {
+  align-self: flex-start; padding: 2px 0; border: 0; background: none; cursor: pointer;
+  font: 700 17px/1.3 var(--font-sans); color: var(--color-primary); text-align: left;
+}
+.forest__join-btn:hover { text-decoration: underline; }
+.forest__join-btn:focus-visible { outline: 0.25rem solid var(--border-focus); outline-offset: 2px; }
+.forest__join-btn:disabled { color: var(--fg-3); cursor: default; text-decoration: none; }
+.forest__join-btn[hidden] { display: none; }
+.forest__join-note { margin: 0; font-size: 14px; line-height: 1.4; color: var(--fg-2); }
+
+.forest__legend {
+  position: absolute; left: 0; right: 0; bottom: 20px;
+  max-width: var(--container-wide); margin: 0 auto; padding: 0 var(--space-3);
+  display: flex; flex-wrap: wrap; gap: 8px 28px;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-2);
+}
+.forest__legend span { display: inline-flex; align-items: center; gap: 8px; }
+.forest__key { display: inline-block; }
+.forest__key--gpu { width: 14px; height: 9px; background: var(--color-primary); border-radius: 1px; }
+.forest__key--job { width: 16px; border-top: 1.5px dashed var(--color-primary); }
+.forest__key--idle { width: 6px; height: 6px; border-radius: 50%; background: var(--color-base-light); }
+
+/* ---------- Footprint table ---------- */
+.footprint__heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 48px; }
+.footprint__heading .section-heading { margin-bottom: 32px; }
+.footprint__lede { font-size: 17px; line-height: 1.55; color: var(--fg-2); max-width: 26rem; margin: 0 0 36px; }
+.footprint__scroll { overflow-x: auto; }
+.footprint { width: 100%; border-collapse: collapse; min-width: 640px; }
+.footprint thead td, .footprint thead th {
+  padding: 14px 0; border-bottom: 2px solid var(--fg-1); text-align: left;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3);
+}
+.footprint thead .footprint__us { color: var(--color-primary); }
+.footprint tbody th, .footprint tbody td { padding: 20px 24px 20px 0; border-bottom: 1px solid var(--border-default); text-align: left; vertical-align: baseline; font-size: 18px; line-height: 1.45; }
+.footprint tbody th { width: 28%; font-family: var(--font-serif); font-weight: 700; color: var(--fg-1); }
+.footprint tbody td { width: 33%; color: var(--fg-3); }
+.footprint tbody td:last-child { width: auto; color: var(--fg-1); font-weight: 600; }
+
+.figures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 56px; }
+.figure { padding-top: 20px; border-top: 2px solid var(--fg-1); }
+.figure__value { font-family: var(--font-serif); font-size: 48px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: var(--color-primary); font-variant-numeric: tabular-nums; }
+.figure__label { margin: 12px 0 10px; font-family: var(--font-serif); font-size: 18px; font-weight: 700; line-height: 1.35; color: var(--fg-1); }
+.figure p { margin: 0 0 12px; font-size: 16px; line-height: 1.55; color: var(--fg-2); }
+.figure__source { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; }
+.figures__note { margin: 40px 0 0; padding-top: 20px; border-top: 1px solid var(--border-default); font-size: 17px; color: var(--fg-2); max-width: none; }
+
+/* ---------- Security & consent rules ---------- */
+.rules__heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
+.rules__heading .section-heading { margin-bottom: 36px; }
+.section--dark .section-heading__eyebrow { color: var(--color-green-cool-20v); }
+.rules__live { margin-bottom: 44px; color: var(--border-default); border-color: color-mix(in srgb, var(--fg-invert) 22%, transparent); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; padding-top: 36px; border-top: 1px solid color-mix(in srgb, var(--fg-invert) 22%, transparent); }
+.rule__num { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-base-light); margin-bottom: 12px; }
+.rule h3 { font-family: var(--font-serif); font-size: 22px; line-height: 1.35; margin: 0 0 10px; }
+.rule p { font-size: 17px; line-height: 1.55; margin: 0; }
+
+@media (max-width: 1024px) {
+  .hero--forest h1 { font-size: 52px; }
+  .forest-hero__copy { gap: 40px; }
+}
+@media (max-width: 960px) {
+  .forest-hero__copy { grid-template-columns: 1fr; gap: 20px; padding-bottom: 24px; }
+  .footprint__heading, .rules__heading { flex-direction: column; align-items: flex-start; gap: 0; }
+  .rules { grid-template-columns: 1fr; gap: 28px; }
+  .figures { grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
+}
+/* On a phone the full scene would be a strip a few pixels tall, so the
+   canvas is drawn at 180% and cropped around the visitor's laptop, and the
+   card, stamp and legend leave the drawing for normal flow beneath it. */
+@media (max-width: 768px) {
+  .hero--forest h1 { font-size: clamp(34px, 9vw, 44px); }
+  .forest { background: var(--bg-2); }
+  .forest__stage { background: linear-gradient(to bottom,
+    var(--bg-1) calc(var(--ground) - 1px), var(--fg-1) calc(var(--ground) - 1px),
+    var(--fg-1) calc(var(--ground) + 1px), var(--bg-2) calc(var(--ground) + 1px)); }
+  .forest__canvas { width: 180%; margin-left: -45%; }
+  .forest__stamp { display: none; }
+  .forest__join { position: static; width: auto; margin: 16px var(--space-3) 0; }
+  .forest__legend { position: static; padding: 16px var(--space-3) 24px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== Header =============== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="brand__name">Warppool</span>
+      <span class="brand__divider"></span>
+      <span class="brand__role"><b>Ad-free web</b>monetize with compute, not surveillance</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/" class="is-active">Overview</a>
+      <a href="/publishers">For Publishers</a>
+      <a href="/run-jobs">Run Jobs</a>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/docs">Docs</a>
+      <span class="header-live" title="Unique workers that contributed in the last 24 hours">
+        <span class="header-live__dot"></span>
+        <span data-live="workers">&mdash;</span>&nbsp;workers
+      </span>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/sign-in" class="site-nav__signin">Sign in</a>
+      <a href="/sign-up" class="site-nav__signup">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== Hero =============== -->
+<!-- The hero's picture is the argument: trees above ground, and under it a
+     root network whose tips are the opted-in browser GPUs that make up the
+     pool. It replaced the Monte Carlo pi demo, which ran entirely in this
+     page and never joined the network, so its "Start contributing" button
+     contributed nothing. "Plant this tab" below does join, and only when
+     pressed. The illustration is generated: tools/gen_forest_svg.py. -->
+<section class="hero hero--forest">
+  <div class="container forest-hero__copy">
+    <div>
+      <div class="hero__eyebrow"><span class="dot"></span>Field report &middot; no new data centers required</div>
+      <h1>Compute that grows like a forest, <em>not a factory.</em></h1>
+    </div>
+    <div>
+      <p class="lead">Warppool runs real work on idle GPUs in browsers whose owners opted in. Every root below is someone who said yes &mdash; the network grows one tab at a time, on hardware that already exists.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="/publishers">For Publishers &rarr;</a>
+        <a class="btn btn--outline btn--lg" href="/run-jobs">Run Jobs &rarr;</a>
+      </div>
+      <p class="hero__caveat">Researchers run free. Publishers earn per GPU-millisecond. No middleman takes 50%.</p>
+    </div>
+  </div>
+
+  <figure class="forest" data-forest data-state="idle">
+    <div class="forest__stage">
+      <div class="forest__canvas">
+        <img src="/assets/forest-network.svg" width="1440" height="600"
+             alt="Six trees above ground. Below it, their roots branch through the soil and end in dozens of small laptops, each an opted-in browser GPU, with dashed lines between neighbours where they share a job. One dashed root reaches toward an empty spot: your browser, not yet part of the network.">
+        <div class="forest__stamp" aria-hidden="true">
+          <b>No new concrete</b>
+          <span>0 buildings &middot; 0 cooling towers</span>
+        </div>
+        <!-- The visitor's own laptop. Its position is the same point
+             tools/gen_forest_svg.py ends the dashed root at (VISITOR_X/Y). -->
+        <span class="forest__you" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22"><rect x="3" y="5" width="18" height="12" rx="1.5"/><rect x="0.5" y="18" width="23" height="2.5" rx="1.2"/></svg>
+        </span>
+      </div>
+      <div class="forest__join" aria-live="polite">
+        <div class="forest__join-label" data-plant-label>Your browser &middot; not planted yet</div>
+        <button type="button" class="forest__join-btn" data-plant-tab>Plant this tab &rarr;</button>
+        <p class="forest__join-note" data-plant-note>Nothing runs until you press this. Close the tab and it stops.</p>
+      </div>
+    </div>
+    <figcaption class="forest__legend">
+      <span><i class="forest__key forest__key--gpu"></i>Opted-in browser GPU</span>
+      <span><i class="forest__key forest__key--job"></i>Shared job</span>
+      <span><i class="forest__key forest__key--idle"></i>Idle, not asked</span>
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ============== Live stats strip =============== -->
+<section class="stats" id="status">
+  <div class="container stats__inner">
+    <div class="stat">
+      <!-- The real figure, from GET /api/network/stats: distinct workers that
+           reported telemetry over a rolling 24 hours. The label says "unique
+           workers" rather than "online" because that is what is being counted
+           - a connected-right-now number is smaller and drops to near zero on
+           every WebSocket-plane deploy. See initLiveStats() in warppool.js. -->
+      <div class="stat__label">Unique workers</div>
+      <div class="stat__value"><span data-live="workers">&mdash;</span></div>
+    </div>
+    <div class="stat">
+      <!-- Real compute, from the billing ledger via GET /api/network/stats:
+           usage.compute_ms summed over a rolling 24 hours, which is the same
+           figure publishers are paid on. It replaced a fabricated "184.2
+           TFLOPS FP32" - peak throughput is a property of hardware WebGPU
+           does not expose (adapter.info is masked for fingerprinting), so any
+           TFLOPS number here would have been a lookup-table guess. -->
+      <div class="stat__label">Compute delivered</div>
+      <div class="stat__value"><span data-live="gpu_hours">&mdash;</span><span class="unit">GPU-hours</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Jobs in flight</div>
+      <div class="stat__value"><span data-live="jobs">47</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Sponsor sites</div>
+      <div class="stat__value"><span data-live="sponsored">218</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Two audience paths =============== -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-heading" style="text-align: center; margin-left: auto; margin-right: auto;">
+      <div class="section-heading__eyebrow">Two audiences, one network</div>
+      <h2>Publishers monetize. Researchers compute.</h2>
+    </div>
+    <div class="cards" style="grid-template-columns: 1fr 1fr;">
+      <article class="card" style="padding: 28px; border-top: 3px solid var(--color-primary);">
+        <span class="track__tag track__tag--contribute">For publishers</span>
+        <h3>Replace ads with compute.</h3>
+        <ul style="list-style: none; padding: 0; margin: 0 0 18px;">
+          <li style="margin-bottom: 12px; color: var(--fg-2); line-height: 1.55;">One script tag replaces your entire ad stack &mdash; 11 KB, async, off the critical path.</li>
+          <li style="margin-bottom: 12px; color: var(--fg-2); line-height: 1.55;">Visitors opt in to lend idle GPU cycles. You earn per completed millisecond. No middleman takes 50%.</li>
+          <li style="margin-bottom: 0; color: var(--fg-2); line-height: 1.55;">Digital advertising is a $680B industry built on surveillance. This is the alternative.</li>
+        </ul>
+        <a class="btn btn--primary" href="/publishers">Publisher guide &rarr;</a>
+      </article>
+      <article class="card" style="padding: 28px; border-top: 3px solid var(--color-primary);">
+        <span class="track__tag track__tag--submit">For researchers</span>
+        <h3>Free distributed GPU compute.</h3>
+        <ul style="list-style: none; padding: 0; margin: 0 0 18px;">
+          <li style="margin-bottom: 12px; color: var(--fg-2); line-height: 1.55;">Ship a shader, get results back. Free for anyone with an .edu email &mdash; no cap, no waitlist.</li>
+          <li style="margin-bottom: 12px; color: var(--fg-2); line-height: 1.55;">Every job runs on GPUs that are already manufactured and powered on. No new data center needed.</li>
+          <li style="margin-bottom: 0; color: var(--fg-2); line-height: 1.55;">No AWS account, no Kubernetes. The simplest path from &ldquo;I have a kernel&rdquo; to &ldquo;I have a result.&rdquo;</li>
+        </ul>
+        <a class="btn btn--primary" href="/run-jobs">Submit a job &rarr;</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Use cases =============== -->
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">What people are running</div>
+      <h2>Real workloads, running right now on the Warppool network.</h2>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg></div>
+        <h3>Climate ensemble forecasts</h3>
+        <p>A weather lab runs 4,000-member regional precipitation ensembles overnight, distributed across volunteer browsers in the same time zone as the model domain.</p>
+        <div class="card__meta"><span><b>Type</b>&nbsp;Monte Carlo</span><span><b>Median task</b>&nbsp;2.4 s</span></div>
+        <a href="/demos" style="display:inline-block; margin-top:10px; font-size:14px; color:var(--color-primary);">See demos &rarr;</a>
+      </article>
+      <article class="card">
+        <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 9h18M7 5v14"/></svg></div>
+        <h3>Batched FastVLM inference</h3>
+        <p>A classroom batches 220k video frames through Apple's open FastVLM model for captioning research. Each task is one frame; tasks stream to whichever idle Warppool device picks them up first.</p>
+        <div class="card__meta"><span><b>Type</b>&nbsp;ML inference</span><span><b>Frames/hour</b>&nbsp;38,400</span></div>
+        <a href="/demos" style="display:inline-block; margin-top:10px; font-size:14px; color:var(--color-primary);">See demos &rarr;</a>
+      </article>
+      <article class="card">
+        <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h16"/></svg></div>
+        <h3>Hyperparameter sweeps</h3>
+        <p>An ML team sweeps 20k learning-rate × batch-size combinations on a small classifier. Each task is one config × 5 seeds. Warppool returns the best 50.</p>
+        <div class="card__meta"><span><b>Type</b>&nbsp;Sweep</span><span><b>Configs/run</b>&nbsp;20,000</span></div>
+        <a href="/demos" style="display:inline-block; margin-top:10px; font-size:14px; color:var(--color-primary);">See demos &rarr;</a>
+      </article>
+    </div>
+
+    <div class="callout" style="margin-top:0;"><b>Trust &amp; verification.</b> A result that could not have come from a working GPU is thrown out and the chunk re-runs on another worker. Chunks from workers that drop or stall are reassigned. Kernels run inside the browser&rsquo;s GPU sandbox, which keeps visitors&rsquo; machines safe.</div>
+  </div>
+</section>
+
+<!-- ============== Environmental case =============== -->
+<!-- Every figure in this section carries its source on the page. The
+     version this replaced quoted 1.8 billion idle GPUs, data centres at 2-4%
+     of global electricity, and 20,000-50,000 t CO2 per build, none cited; the
+     electricity share was also about double the IEA's measured 1.5%. A
+     footprint claim is the first thing a skeptical reader checks, so a new
+     number goes in only with a link a reader can follow. -->
+<section class="section" id="footprint">
+  <div class="container">
+    <div class="footprint__heading">
+      <div class="section-heading">
+        <div class="section-heading__eyebrow">The environmental case</div>
+        <h2>Same GPU-hour. Different footprint.</h2>
+      </div>
+      <p class="footprint__lede">A new data center answers demand with land, power and water. Warppool answers it with hardware that is already built, already plugged in, and already in someone&rsquo;s hands.</p>
+    </div>
+    <div class="footprint__scroll">
+      <table class="footprint">
+        <thead>
+          <tr><td></td><th scope="col">New data center</th><th scope="col" class="footprint__us">Warppool</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">New construction</th><td>Land, a substation, a new building</td><td>None. The laptops already exist.</td></tr>
+          <tr><th scope="row">Cooling</th><td>Chillers, often evaporative towers drawing local water</td><td>Room air. The work spreads thin across thousands of rooms.</td></tr>
+          <tr><th scope="row">What runs on the machine</th><td>Anything the tenant installs</td><td>WebGPU compute shaders only, inside the browser&rsquo;s sandbox.</td></tr>
+          <tr><th scope="row">Who said yes</th><td>A zoning board</td><td>The person at the keyboard, before a single kernel ran.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="figures">
+      <div class="figure">
+        <div class="figure__value">83%</div>
+        <div class="figure__label">of browsers can already run WebGPU</div>
+        <p>Reports in which WebGPU returned a working adapter. That is the pool: GPUs already built, already powered on, already in someone&rsquo;s hands.</p>
+        <a class="figure__source" href="https://web3dsurvey.com/webgpu">Source: Web3D Survey</a>
+      </div>
+      <div class="figure">
+        <div class="figure__value">1.5%</div>
+        <div class="figure__label">of the world&rsquo;s electricity went to data centres in 2024</div>
+        <p>415 TWh, set to more than double to around 945 TWh by 2030 &mdash; slightly more than Japan uses today.</p>
+        <a class="figure__source" href="https://www.iea.org/reports/energy-and-ai/executive-summary">Source: IEA, Energy and AI</a>
+      </div>
+      <div class="figure">
+        <div class="figure__value">+30.9%</div>
+        <div class="figure__label">Microsoft&rsquo;s indirect emissions since 2020</div>
+        <p>Driven mainly by building more data centres: the embodied carbon in steel and concrete, plus the chips, servers and racks inside them.</p>
+        <a class="figure__source" href="https://blogs.microsoft.com/on-the-issues/2024/05/15/microsoft-environmental-sustainability-report-2024/">Source: Microsoft, 2024 Environmental Sustainability Report</a>
+      </div>
+    </div>
+    <p class="figures__note">Every embarrassingly parallel job that runs on Warppool is compute that did not need a new building.</p>
+  </div>
+</section>
+
+<!-- ============== Security & consent =============== -->
+<section class="section section--dark" id="rules">
+  <div class="container">
+    <div class="rules__heading">
+      <div class="section-heading">
+        <div class="section-heading__eyebrow">Security &amp; consent</div>
+        <h2>A forest has rules. So does this one.</h2>
+      </div>
+      <!-- Same live figure as the header chip (data-live="workers", filled
+           by initLiveStats in warppool.js), so the number a visitor sees up
+           top is the one this section is talking about. -->
+      <span class="header-live rules__live" title="Unique workers that contributed in the last 24 hours">
+        <span class="header-live__dot"></span>
+        <span data-live="workers">&mdash;</span>&nbsp;workers &middot; 24h
+      </span>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="rule__num">01 &middot; Consent first</div>
+        <h3>Nothing runs until a person says yes.</h3>
+        <p>On a publisher&rsquo;s site, a consent banner comes before the first kernel. On this page, the &ldquo;Plant this tab&rdquo; button is the yes.</p>
+      </div>
+      <div class="rule">
+        <div class="rule__num">02 &middot; Shaders, not software</div>
+        <h3>Only GPU math gets in.</h3>
+        <p>Jobs are WebGPU compute shaders, run inside the browser&rsquo;s own sandbox. No installs, no file access.</p>
+      </div>
+      <div class="rule">
+        <div class="rule__num">03 &middot; Leaves nothing behind</div>
+        <h3>Close the tab and it&rsquo;s over.</h3>
+        <p>Nothing is installed and nothing keeps running in the background. The work lives exactly as long as the page does.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ =============== -->
+<section class="section section--tint" id="docs">
+  <div class="container container-narrow" style="padding: 0 24px;">
+    <div class="section-heading">
+      <div class="section-heading__eyebrow">Common questions</div>
+      <h2>Things people ask before dropping their ad network.</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Can this actually replace my ad revenue?</summary>
+        <p>For content sites with engaged readers (avg. session &gt;2 minutes), yes. A site with 100k monthly visitors and 50% opt-in rate earns roughly $0.04 per GPU-hour contributed. That works out to comparable or better revenue than programmatic display ads for most niche publishers &mdash; and you keep 70% of it instead of the 30&ndash;50% left after an ad network's cut. The math gets better as GPU utilization rates improve and compute demand grows.</p>
+      </details>
+      <details>
+        <summary>Is this just a cryptominer with extra steps?</summary>
+        <p>No &mdash; and we built the network specifically to be the opposite. Cryptominers run inside ads, without consent, and benefit the site operator at the visitor's expense. Warppool requires explicit per-session opt-in, surfaces what's running, throttles to background-tab limits, and pays the credit to whoever the visitor authorized. The first thing on every roadmap is making fraud easy to spot.</p>
+      </details>
+      <details>
+        <summary>What does it cost to run a job?</summary>
+        <p>Researchers with verifiable institutional affiliation (university, public lab, school) run free — no cap, just don't be silly with it. Everyone else is billed per <em>millisecond of completed compute</em>: you pay only for tasks that returned a verified result. Failed tasks, timeouts, canary tasks, and redundant re-runs cost nothing. Indicative rate is around $0.04 per GPU-hour. Embed the worker tag on your own site and you earn credits back at the same rate.</p>
+      </details>
+      <details>
+        <summary>How fast is one browser GPU, really?</summary>
+        <p>A mid-range integrated GPU (M-series, recent Intel) returns ~1.5 GFLOPS-equivalent on our Monte Carlo benchmark. A discrete RTX-class card returns 30–80×. Calibration runs on join, so the Warppool scheduler always knows roughly how big a task a given worker can swallow in ~2 seconds.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Tree line — subtle horizon above the footer =============== -->
+<div class="treeline" aria-hidden="true">
+  <svg viewBox="0 0 1200 130" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <defs>
+      <g id="ts">
+        <polygon points="-10,126 10,126 0,106"/>
+        <polygon points="-8,114 8,114 0,96"/>
+        <rect x="-2" y="126" width="4" height="4"/>
+      </g>
+      <g id="tm">
+        <polygon points="-16,126 16,126 0,100"/>
+        <polygon points="-12,108 12,108 0,84"/>
+        <polygon points="-9,92 9,92 0,76"/>
+        <rect x="-2.5" y="126" width="5" height="4"/>
+      </g>
+      <g id="tl">
+        <polygon points="-20,126 20,126 0,92"/>
+        <polygon points="-16,102 16,102 0,74"/>
+        <polygon points="-12,84 12,84 0,60"/>
+        <polygon points="-9,68 9,68 0,48"/>
+        <rect x="-2.5" y="126" width="5" height="4"/>
+      </g>
+      <g id="bs">
+        <circle cx="0" cy="112" r="9"/>
+        <circle cx="-5" cy="106" r="7"/>
+        <circle cx="5" cy="106" r="7"/>
+        <circle cx="0" cy="100" r="7"/>
+        <rect x="-2" y="118" width="4" height="12"/>
+      </g>
+      <g id="bm">
+        <circle cx="0" cy="106" r="12"/>
+        <circle cx="-9" cy="100" r="9"/>
+        <circle cx="9" cy="100" r="9"/>
+        <circle cx="-4" cy="92" r="9"/>
+        <circle cx="5" cy="90" r="9"/>
+        <rect x="-2" y="114" width="4" height="16"/>
+      </g>
+      <g id="bl">
+        <circle cx="0" cy="98" r="16"/>
+        <circle cx="-12" cy="94" r="10"/>
+        <circle cx="12" cy="94" r="10"/>
+        <circle cx="-5" cy="82" r="10"/>
+        <circle cx="7" cy="80" r="10"/>
+        <rect x="-2.5" y="110" width="5" height="20"/>
+      </g>
+    </defs>
+    <rect x="0" y="128" width="1200" height="2" fill="#1b1b1b"/>
+    <line x1="0" y1="129" x2="1200" y2="129" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <use href="#ts" x="34"/>
+    <use href="#tm" x="82"/>
+    <use href="#bm" x="120"/>
+    <use href="#ts" x="160"/>
+    <use href="#tl" x="207"/>
+    <use href="#ts" x="250"/>
+    <use href="#bl" x="285"/>
+    <use href="#tm" x="332"/>
+    <use href="#ts" x="378"/>
+    <use href="#tl" x="422"/>
+    <use href="#bs" x="460"/>
+    <use href="#tm" x="500"/>
+    <use href="#tl" x="552"/>
+    <use href="#ts" x="598"/>
+    <use href="#bm" x="632"/>
+    <use href="#tm" x="678"/>
+    <use href="#ts" x="724"/>
+    <use href="#tl" x="774"/>
+    <use href="#ts" x="820"/>
+    <use href="#bl" x="855"/>
+    <use href="#tm" x="900"/>
+    <use href="#ts" x="943"/>
+    <use href="#tl" x="988"/>
+    <use href="#bs" x="1025"/>
+    <use href="#tm" x="1064"/>
+    <use href="#tl" x="1112"/>
+    <use href="#ts" x="1158"/>
+    <use href="#ts" x="1192"/>
+  </svg>
+</div>
+
+<!-- ============== Footer / identifier =============== -->
+<footer class="identifier" id="contact">
+  <div class="container">
+    <div class="identifier__top">
+      <span class="identifier__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <div class="identifier__role">
+        <b>Warppool</b>
+        The monetization layer for the ad-free web. Replace ad networks with compute &mdash; fund sites with idle GPUs instead of surveillance.
+      </div>
+    </div>
+
+    <div class="identifier__cols">
+      <div class="identifier__about">
+        Warppool is the monetization layer for the ad-free web. Publishers replace ad networks with one script tag &mdash; visitors who opt in lend idle GPU cycles to power scientific research and computation. No tracking, no data brokers, no attention tax. <b>Researchers run free. Publishers earn per GPU-millisecond. The web gets funded by useful work instead of surveillance.</b>
+      </div>
+      <div class="identifier__col">
+        <h4>Network</h4>
+        <ul>
+          <li><a href="/run-jobs">Run jobs</a></li>
+          <li><a href="/publishers">For Publishers</a></li>
+          <li><a href="/demos">Demos</a></li>
+          <li><a href="https://warppool.statuspage.io/">Status &amp; uptime</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="/docs">Running jobs</a></li>
+          <li><a href="/docs#kernel">Write a kernel</a></li>
+          <li><a href="/docs#submit">Submit a job</a></li>
+          <li><a href="/docs#mcp">MCP for AI agents</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://linkedin.com/company/warppool/jobs">Careers</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="identifier__meta">
+      <statuspage-widget src="https://warppool.statuspage.io"></statuspage-widget>
+      <span>© 2026 Warppool &middot; v0.3.1</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/warppool.js"></script>
+<script src="/assets/forest-join.js"></script>
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+  const nav = document.querySelector('.site-nav');
+  const open = nav.classList.toggle('is-open');
+  this.classList.toggle('is-open', open);
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.js"></script>
+<script src="https://unpkg.com/@statuspage/status-widget/dist/index.js"></script>
+</body>
+</html>

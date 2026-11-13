@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<!-- Demos index (/demos): links to the interactive demo pages. -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Demos — Warppool</title>
+<meta name="description" content="Try Warppool demos: Monte Carlo pi estimation, distributed reinforcement learning, and an embed widget on a mock newspaper site." />
+<link rel="stylesheet" href="/assets/warppool.css" />
+<link rel="icon" type="image/png" href="/assets/warppool-icon.png" />
+<link rel="apple-touch-icon" href="/assets/warppool-icon.png" />
+</head>
+<body>
+
+<!-- ============== Header =============== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="brand__name">Warppool</span>
+      <span class="brand__divider"></span>
+      <span class="brand__role"><b>Ad-free web</b>monetize with compute, not surveillance</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Overview</a>
+      <a href="/publishers">For Publishers</a>
+      <a href="/run-jobs">Run Jobs</a>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/docs">Docs</a>
+      <span class="header-live" title="Unique workers that contributed in the last 24 hours">
+        <span class="header-live__dot"></span>
+        <span data-live="workers">&mdash;</span>&nbsp;workers
+      </span>
+      <span class="site-nav__sep" aria-hidden="true"></span>
+      <a href="/sign-in" class="site-nav__signin">Sign in</a>
+      <a href="/sign-up" class="site-nav__signup">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== Hero =============== -->
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow-divider">Try it</div>
+    <h1>Demos</h1>
+    <p class="lead" style="max-width: 42rem;">See Warppool in action. Each demo runs a real compute job on your browser's GPU &mdash; no sign-up required.</p>
+  </div>
+</section>
+
+<!-- ============== Demo cards =============== -->
+<section class="section">
+  <div class="container">
+    <div class="cards">
+
+      <article class="card" style="padding: 28px;">
+        <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg></div>
+        <h3>Monte Carlo Pi Estimation</h3>
+        <p>The classic embarrassingly parallel job. Random points land in a unit square; the ratio inside the quarter-circle converges to pi. Runs a real WGSL (the standard GPU shader language) compute shader with hits aggregated on the GPU.</p>
+        <div class="card__meta"><span><b>Type</b>&nbsp;Monte Carlo</span><span><b>Runtime</b>&nbsp;~30s</span></div>
+        <div style="margin-top: 16px;">
+          <a class="btn btn--primary btn--sm" href="/">Try it on the homepage</a>
+        </div>
+      </article>
+
+      <article class="card" style="padding: 28px;">
+        <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+        <h3>RL Gridworld</h3>
+        <p>Distributed Q-learning across browser GPU workers. Watch a grid-world agent learn to navigate in real time as multiple workers contribute training episodes in parallel.</p>
+        <div class="card__meta"><span><b>Type</b>&nbsp;Reinforcement learning</span><span><b>Workers</b>&nbsp;1&ndash;N</span></div>
+        <div style="margin-top: 16px;">
+          <a class="btn btn--primary btn--sm" href="/rl-demo">Launch demo</a>
+        </div>
+      </article>
+
+      <article class="card" style="padding: 28px;">
+        <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h16"/></svg></div>
+        <h3>Newspaper Embed</h3>
+        <p>A mock newspaper site with the Warppool embed widget active. See exactly what a visitor experiences: the consent banner, the running state badge, and the stop behavior when you close the tab.</p>
+        <div class="card__meta"><span><b>Type</b>&nbsp;Embed widget demo</span><span><b>Shows</b>&nbsp;Publisher flow</span></div>
+        <div style="margin-top: 16px;">
+          <a class="btn btn--primary btn--sm" href="/demo-newspaper">View demo site</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA =============== -->
+<section class="section section--tint">
+  <div class="container" style="text-align: center; max-width: 36rem;">
+    <h2 style="font-family: var(--font-serif); font-size: 28px; margin: 0 0 14px;">Ready to run your own workload?</h2>
+    <p style="font-size: 17px; color: var(--fg-2); margin: 0 0 24px;">These demos show what's possible. Submit your own WGSL kernel and put the network to work.</p>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a class="btn btn--primary btn--lg" href="/run-jobs">Submit a job</a>
+      <a class="btn btn--outline btn--lg" href="/publishers">Embed on your site</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Tree line =============== -->
+<div class="treeline" aria-hidden="true">
+  <svg viewBox="0 0 1200 130" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <defs>
+      <g id="ts"><polygon points="-10,126 10,126 0,106"/><polygon points="-8,114 8,114 0,96"/><rect x="-2" y="126" width="4" height="4"/></g>
+      <g id="tm"><polygon points="-16,126 16,126 0,100"/><polygon points="-12,108 12,108 0,84"/><polygon points="-9,92 9,92 0,76"/><rect x="-2.5" y="126" width="5" height="4"/></g>
+      <g id="tl"><polygon points="-20,126 20,126 0,92"/><polygon points="-16,102 16,102 0,74"/><polygon points="-12,84 12,84 0,60"/><polygon points="-9,68 9,68 0,48"/><rect x="-2.5" y="126" width="5" height="4"/></g>
+      <g id="bs"><circle cx="0" cy="112" r="9"/><circle cx="-5" cy="106" r="7"/><circle cx="5" cy="106" r="7"/><circle cx="0" cy="100" r="7"/><rect x="-2" y="118" width="4" height="12"/></g>
+      <g id="bm"><circle cx="0" cy="106" r="12"/><circle cx="-9" cy="100" r="9"/><circle cx="9" cy="100" r="9"/><circle cx="-4" cy="92" r="9"/><circle cx="5" cy="90" r="9"/><rect x="-2" y="114" width="4" height="16"/></g>
+      <g id="bl"><circle cx="0" cy="98" r="16"/><circle cx="-12" cy="94" r="10"/><circle cx="12" cy="94" r="10"/><circle cx="-5" cy="82" r="10"/><circle cx="7" cy="80" r="10"/><rect x="-2.5" y="110" width="5" height="20"/></g>
+    </defs>
+    <rect x="0" y="128" width="1200" height="2" fill="#1b1b1b"/>
+    <line x1="0" y1="129" x2="1200" y2="129" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    <use href="#ts" x="34"/><use href="#tm" x="82"/><use href="#bm" x="120"/><use href="#ts" x="160"/><use href="#tl" x="207"/><use href="#ts" x="250"/><use href="#bl" x="285"/><use href="#tm" x="332"/><use href="#ts" x="378"/><use href="#tl" x="422"/><use href="#bs" x="460"/><use href="#tm" x="500"/><use href="#tl" x="552"/><use href="#ts" x="598"/><use href="#bm" x="632"/><use href="#tm" x="678"/><use href="#ts" x="724"/><use href="#tl" x="774"/><use href="#ts" x="820"/><use href="#bl" x="855"/><use href="#tm" x="900"/><use href="#ts" x="943"/><use href="#tl" x="988"/><use href="#bs" x="1025"/><use href="#tm" x="1064"/><use href="#tl" x="1112"/><use href="#ts" x="1158"/><use href="#ts" x="1192"/>
+  </svg>
+</div>
+
+<!-- ============== Footer =============== -->
+<footer class="identifier">
+  <div class="container">
+    <div class="identifier__top">
+      <span class="identifier__mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <div class="identifier__role">
+        <b>Warppool</b>
+        The monetization layer for the ad-free web. Replace ad networks with compute &mdash; fund sites with idle GPUs instead of surveillance.
+      </div>
+    </div>
+
+    <div class="identifier__cols">
+      <div class="identifier__about">
+        Warppool is the monetization layer for the ad-free web. Publishers replace ad networks with one script tag &mdash; visitors who opt in lend idle GPU cycles to power scientific research and computation. No tracking, no data brokers, no attention tax. <b>Researchers run free. Publishers earn per GPU-millisecond. The web gets funded by useful work instead of surveillance.</b>
+      </div>
+      <div class="identifier__col">
+        <h4>Network</h4>
+        <ul>
+          <li><a href="/run-jobs">Run jobs</a></li>
+          <li><a href="/publishers">For Publishers</a></li>
+          <li><a href="/demos">Demos</a></li>
+          <li><a href="https://warppool.statuspage.io/">Status &amp; uptime</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="/docs">Running jobs</a></li>
+          <li><a href="/docs#kernel">Write a kernel</a></li>
+          <li><a href="/docs#submit">Submit a job</a></li>
+          <li><a href="/docs#mcp">MCP for AI agents</a></li>
+        </ul>
+      </div>
+      <div class="identifier__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://linkedin.com/company/warppool/jobs">Careers</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="identifier__meta">
+      <statuspage-widget src="https://warppool.statuspage.io"></statuspage-widget>
+      <span>&copy; 2026 Warppool &middot; v0.3.1</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/warppool.js"></script>
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+  const nav = document.querySelector('.site-nav');
+  const open = nav.classList.toggle('is-open');
+  this.classList.toggle('is-open', open);
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.js"></script>
+<script src="https://unpkg.com/@statuspage/status-widget/dist/index.js"></script>
+</body>
+</html>
